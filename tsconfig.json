@@ -1,0 +1,14 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ],
+    "compileOnSave": true,
+    "compilerOptions": {
+        "declaration": true,
+        "moduleResolution": "NodeNext",
+        "outDir": "./dist",
+        "sourceMap": true,
+        "target": "ESNext",
+    }
+}

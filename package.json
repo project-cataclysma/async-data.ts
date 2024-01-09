@@ -1,0 +1,20 @@
+{
+  "name": "data-async",
+  "version": "0.1.0",
+  "module": "./dist/es2015/index.js",
+  "description": "A library for interacting with Data Async",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "author": "Dyllan Macias",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.4.6"
+  },
+  "devDependencies": {
+    "@types/async-lock": "^1.4.2",
+    "async-lock": "^1.4.1",
+    "vitest": "^1.1.3"
+  }
+}
