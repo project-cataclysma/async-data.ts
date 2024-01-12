@@ -1,10 +1,15 @@
 import { Ref, ref } from "vue";
-import { Method, MethodReference, StatusReference } from "../types";
+import { Method, ExecuitonReference, StatusReference } from "../types";
 import { StatusConfig } from "../types/configurations/status-config";
 import { ExecutionStatus } from "../types/status";
 import { ExecutionStatusType } from "../types/status-type";
 
-export function useStatusReference<TResult, TReference extends MethodReference<TResponse, TArgs>, TResponse, TArgs extends any[], TError extends Error>(
+export function useStatusReference<
+    TResult,
+    TReference extends ExecuitonReference<TResponse, TArgs>,
+    TResponse, TArgs extends any[],
+    TError extends Error
+>(
     referenceFn: (method: Method<TResponse, TArgs>, configuration: StatusConfig<TResult, TResponse, TArgs>) => TReference,
     method: Method<TResponse, TArgs>,
     configuration?: StatusConfig<TResult, TResponse, TArgs, TError>,

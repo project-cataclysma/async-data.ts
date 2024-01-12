@@ -1,6 +1,6 @@
 import { it, expect, vi } from 'vitest';
 import { MethodStage } from '../../../src/types/method-stage';
-import { DelayFunctionReference, onDelayFunctionSuccess } from '../../delay-function';
+import { DelayFunctionReference } from '../../delay-function';
 
 export function specUseExecutionReference (dataFn: () => DelayFunctionReference) {
     it('is executing until released', () => specTracksExecuting(dataFn));
@@ -8,10 +8,6 @@ export function specUseExecutionReference (dataFn: () => DelayFunctionReference)
     it('has stage to simplify execution tracking', () => specTracksExecutionStage(dataFn));
     it('tracks execution time', () => specTracksExecutionLastCompletedTime(dataFn));
     it('has the correct response', () => specTracksExecutionResponse(dataFn));
-}
-
-export async function specOnSuccessCallback(dataFn: () => DelayFunctionReference): Promise<void> {
-    const data = dataFn();
 }
 
 export async function specTracksExecuting(dataFn: () => DelayFunctionReference): Promise<void> {

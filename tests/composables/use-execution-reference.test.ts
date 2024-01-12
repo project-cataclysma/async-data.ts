@@ -1,9 +1,9 @@
 import { describe } from 'vitest';
-import { specUseExecutionReference } from './spec/use-execution-reference-spec';
-import { useExecutionReference } from '../../src/composables';
 import { delayFunction, onDelayFunctionSuccess } from '../delay-function';
+import { useExecutionComposable } from '../../src/types/composables/use-execution-composable';
+import { specUseExecutionReference } from './spec/use-execution-reference-spec'
 
-const dataFn = () => useExecutionReference(delayFunction, {
+const dataFn = useExecutionComposable(delayFunction, {
     onSuccess: onDelayFunctionSuccess,
 });
 

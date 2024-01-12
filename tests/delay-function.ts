@@ -1,4 +1,4 @@
-import { MethodReference, StatusReference } from "../src/types";
+import { ExecuitonReference, StatusReference } from "../src/types";
 import { ExecutionStatus } from "../src/types/status";
 import { ExecutionStatusType } from "../src/types/status-type";
 
@@ -33,7 +33,7 @@ export function getDelayFunctionError(response: DelayFunctionResponse): Error|nu
     else return null;
 }
 
-export type DelayFunctionReference = MethodReference<DelayFunctionResponse, [key: string]>;
+export type DelayFunctionReference = ExecuitonReference<DelayFunctionResponse, [key: string]>;
 export type DelayFunctionStatusReference = StatusReference<boolean, DelayFunctionReference, DelayFunctionResponse, [key: string]>;
 
 export const DelayPending: ExecutionStatus = {
