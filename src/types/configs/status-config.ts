@@ -1,6 +1,6 @@
 import { ExecutionConfig } from "./execution-config";
 import { GetError, GetResult, GetStatus } from "../callbacks";
-import { OnFailure } from "../callbacks/on-failure";
+import { OnFailure } from "../callbacks";
 import { ExecutionStatus } from "../status";
 
 export type StatusConfig<TResult, TResponse, TArgs extends any[], TError extends Error = Error> = ExecutionConfig<TResponse,TArgs> & {

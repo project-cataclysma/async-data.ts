@@ -1,4 +1,4 @@
-import { ExecutionStatus } from "../status";
+import { ExecutionStatus } from "../../status";
 
 export type OnFailure<TResponse, TArgs extends any[]> = (
     status: ExecutionStatus,
