@@ -1,9 +1,9 @@
-import { MethodConfiguration } from "./method-configuration";
+import { ExecutionConfig } from "./execution-config";
 import { GetError, GetResult, GetStatus } from "../callbacks";
 import { OnFailure } from "../callbacks/on-failure";
-import { ExecutionStatus } from "../execution-status";
+import { ExecutionStatus } from "../status";
 
-export type MethodConfigurationStatus<TResult, TResponse, TArgs extends any[], TError extends Error = Error> = MethodConfiguration<TResponse,TArgs> & {
+export type StatusConfig<TResult, TResponse, TArgs extends any[], TError extends Error = Error> = ExecutionConfig<TResponse,TArgs> & {
     initialResult?: TResult;
     getResult?: GetResult<TResult, TResponse>;
     getStatus?: GetStatus<ExecutionStatus, TResponse>;

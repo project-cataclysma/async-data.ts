@@ -1,12 +1,12 @@
 import { Method } from "../types/method";
 import { Ref, computed, ref } from 'vue'
-import { MethodConfiguration } from "../types/configurations";
+import { ExecutionConfig } from "../types/configurations";
 import { MethodStage } from "../types/method-stage";
 import { MethodReference } from "../types/references/method-reference";
 
-export function useMethod<TResponse, TArgs extends any[]>(
+export function useExecutionReference<TResponse, TArgs extends any[]>(
     method: Method<TResponse, TArgs>,
-    configuration?: MethodConfiguration<TResponse, TArgs>
+    configuration?: ExecutionConfig<TResponse, TArgs>
 ): MethodReference<TResponse, TArgs> {
     configuration ??= {}
     const executing = ref(false);

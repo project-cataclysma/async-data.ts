@@ -1,8 +1,8 @@
 import { MethodReference } from './method-reference';
-import { ExecutionStatus } from '../execution-status';
+import { ExecutionStatus } from '../status';
 import { Ref } from 'vue';
 
-export type MethodReferenceStatus<TResult, TReference extends MethodReference<TResponse, TArgs>, TResponse, TArgs extends any[], TError extends Error = Error> = TReference & {
+export type StatusReference<TResult, TReference extends MethodReference<TResponse, TArgs>, TResponse, TArgs extends any[], TError extends Error = Error> = TReference & {
     /**
      * Contains an Error if an Error has occurred.
      * Null otherwise.

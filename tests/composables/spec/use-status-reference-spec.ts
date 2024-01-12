@@ -1,9 +1,9 @@
 import { it, expect } from 'vitest';
 import { DelayFunctionStatusReference } from '../../delay-function';
-import { ExecutionStatusType } from '../../../src/types/execution-status-type';
+import { ExecutionStatusType } from '../../../src/types/status-type';
 
 
-export function specUseMethodStatus (dataFn: () => DelayFunctionStatusReference) {
+export function specUseStatusReference (dataFn: () => DelayFunctionStatusReference) {
     it('extracts results', () => specExtractsResult(dataFn));
     it('extracts status', () => specExtractsStatus(dataFn));
     it('extracts error', () => specExtractsError(dataFn));

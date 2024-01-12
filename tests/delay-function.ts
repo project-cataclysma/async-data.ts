@@ -1,6 +1,6 @@
-import { MethodReference, MethodReferenceStatus } from "../src/types";
-import { ExecutionStatus } from "../src/types/execution-status";
-import { ExecutionStatusType } from "../src/types/execution-status-type";
+import { MethodReference, StatusReference } from "../src/types";
+import { ExecutionStatus } from "../src/types/status";
+import { ExecutionStatusType } from "../src/types/status-type";
 
 export type DelayFunctionResponse = { key: string, result: boolean}
 
@@ -23,6 +23,10 @@ export function getDelayFunctionStatus(response: DelayFunctionResponse): Executi
     }
 }
 
+export function onDelayFunctionSuccess() {
+    return true;
+}
+
 export function getDelayFunctionError(response: DelayFunctionResponse): Error|null {
     if(response.key === 'errored') return new Error('bad');
     else if (response.key === 'errored-hard') throw Error('bad bad');
@@ -30,7 +34,7 @@ export function getDelayFunctionError(response: DelayFunctionResponse): Error|nu
 }
 
 export type DelayFunctionReference = MethodReference<DelayFunctionResponse, [key: string]>;
-export type DelayFunctionStatusReference = MethodReferenceStatus<boolean, DelayFunctionReference, DelayFunctionResponse, [key: string]>;
+export type DelayFunctionStatusReference = StatusReference<boolean, DelayFunctionReference, DelayFunctionResponse, [key: string]>;
 
 export const DelayPending: ExecutionStatus = {
     type: ExecutionStatusType.Pending,

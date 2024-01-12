@@ -1,14 +1,14 @@
 import { Ref, ref } from "vue";
-import { Method, MethodReference, MethodReferenceStatus } from "../types";
-import { MethodConfigurationStatus } from "../types/configurations/method-configuration-status";
-import { ExecutionStatus } from "../types/execution-status";
-import { ExecutionStatusType } from "../types/execution-status-type";
+import { Method, MethodReference, StatusReference } from "../types";
+import { StatusConfig } from "../types/configurations/status-config";
+import { ExecutionStatus } from "../types/status";
+import { ExecutionStatusType } from "../types/status-type";
 
-export function useMethodStatus<TResult, TReference extends MethodReference<TResponse, TArgs>, TResponse, TArgs extends any[], TError extends Error>(
+export function useStatusReference<TResult, TReference extends MethodReference<TResponse, TArgs>, TResponse, TArgs extends any[], TError extends Error>(
+    referenceFn: (method: Method<TResponse, TArgs>, configuration: StatusConfig<TResult, TResponse, TArgs>) => TReference,
     method: Method<TResponse, TArgs>,
-    referenceFn: (method: Method<TResponse, TArgs>, configuration: MethodConfigurationStatus<TResult, TResponse, TArgs>) => TReference,
-    configuration?: MethodConfigurationStatus<TResult, TResponse, TArgs>,
-): MethodReferenceStatus<TResult, TReference, TResponse, TArgs, TError> {
+    configuration?: StatusConfig<TResult, TResponse, TArgs, TError>,
+): StatusReference<TResult, TReference, TResponse, TArgs, TError> {
     configuration ??= {}
     const initialResult: TResult | null = configuration.initialResult ?? null;
     const error = ref<TError | null>(null) as Ref<TError | null>;
