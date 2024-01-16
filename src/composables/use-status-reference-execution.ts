@@ -1,5 +1,5 @@
 import { Method, ExecuitonReference, StatusReference } from "../types";
-import { StatusConfig } from "../types/configurations/status-config";
+import { StatusConfig } from "../types/configs/status-config";
 import { useExecutionReference } from "./use-execution-reference";
 import { useStatusReference } from "./use-status-reference";
 

@@ -1,5 +1,5 @@
 import { useStatusReference } from "../../composables";
-import { StatusConfig } from "../configurations";
+import { StatusConfig } from "../configs";
 import { Method } from "../method";
 import { ExecuitonReference } from "../references";
 

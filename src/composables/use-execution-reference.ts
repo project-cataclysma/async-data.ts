@@ -1,6 +1,6 @@
 import { Method } from "../types/method";
 import { Ref, computed, ref } from 'vue'
-import { ExecutionConfig } from "../types/configurations";
+import { ExecutionConfig } from "../types/configs";
 import { MethodStage } from "../types/method-stage";
 import { ExecuitonReference } from "../types/references/execution-reference";
 

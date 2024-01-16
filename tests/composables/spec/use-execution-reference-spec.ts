@@ -1,4 +1,4 @@
-import { it, expect, vi } from 'vitest';
+import { it, expect } from 'vitest';
 import { MethodStage } from '../../../src/types/method-stage';
 import { DelayFunctionReference } from '../../delay-function';
 
