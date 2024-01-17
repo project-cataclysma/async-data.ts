@@ -4,11 +4,15 @@ import { ExecutionComposable } from "../types/composables";
 import { Method } from "../types/method";
 
 export function useExecutionComposable<
+    TConfig extends ExecutionConfig<TResponse, TArgs>,
     TResponse,
     TArgs extends any[]
 > (
     action: Method<TResponse, TArgs>,
-    method: ExecutionConfig<TResponse, TArgs>
-): ExecutionComposable<TResponse, TArgs> {
-    return () => useExecutionReference(action, method);
+    defaultConfig: TConfig
+): ExecutionComposable<TConfig, TResponse, TArgs> {
+    return (config?: Partial<TConfig>) => useExecutionReference(action, {
+        ...defaultConfig,
+        ...config,
+    });
 }

@@ -5,6 +5,7 @@ import { Method } from "../types/method";
 import { ExecuitonReference } from "../types/references";
 
 export function useStatusComposable<
+    TConfig extends StatusConfig<TResult, TResponse, TArgs, TError>,
     TResult,
     TReference extends ExecuitonReference<TResponse, TArgs>,
     TResponse, TArgs extends any[],
@@ -12,7 +13,10 @@ export function useStatusComposable<
 >(
     referenceFn: (method: Method<TResponse, TArgs>, configuration: StatusConfig<TResult, TResponse, TArgs>) => TReference,
     action: Method<TResponse, TArgs>,
-    method: StatusConfig<TResult, TResponse, TArgs, TError>
-): StatusComposable<TResult, TReference, TResponse, TArgs> {
-    return () => useStatusReference(referenceFn, action, method);
+    defaultConfig: TConfig
+): StatusComposable<TConfig, TResult, TReference, TResponse, TArgs, TError> {
+    return (config?: Partial<TConfig>) => useStatusReference(referenceFn, action, {
+        ...defaultConfig,
+        ...config,
+    });
 }

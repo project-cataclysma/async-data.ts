@@ -1,3 +1,8 @@
+import { ExecutionConfig } from "../../types";
 import { ExecuitonReference } from "../references";
 
-export type ExecutionComposable<TResponse, TArgs extends any[]> = () => ExecuitonReference<TResponse, TArgs>
+export type ExecutionComposable<
+    TConfig extends ExecutionConfig<TResponse, TArgs>,
+    TResponse,
+    TArgs extends any[]
+> = (config?: Partial<TConfig>) => ExecuitonReference<TResponse, TArgs>
