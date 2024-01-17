@@ -9,8 +9,9 @@ export function useValueReference<
 >(
     referenceFn: (method: Method<TResponse, TArgs>, configuration: ExecutionConfig<TResponse, TArgs>) => TReference,
     method: Method<TResponse, [arg: TArg, ...args: TArgs]>,
+    configuration: ExecutionConfig<TResponse, TArgs>,
     arg: MaybeRef<TArg>
 ): ExecuitonReference<TResponse, TArgs> {
-    const reference = referenceFn((...args: TArgs) => method(toValue(arg), ...args), { });
+    const reference = referenceFn((...args: TArgs) => method(toValue(arg), ...args), configuration);
     return reference;
 }

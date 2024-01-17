@@ -6,8 +6,8 @@ export type DelayFunctionResponse = { key: string, result: boolean}
 
 export const EmptyDelayFunctionResponse: DelayFunctionResponse = { key: 'none', result: false }
 
-export async function delayFunction(key: string): Promise<DelayFunctionResponse> {
-    return { key, result: true };
+export async function delayFunction(key: string, result: boolean = true): Promise<DelayFunctionResponse> {
+    return { key, result };
 }
 
 export function getDelayFunctionStatus(response: DelayFunctionResponse): ExecutionStatus {
