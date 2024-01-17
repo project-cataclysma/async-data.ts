@@ -1,7 +1,8 @@
-import { useStatusReference } from "../../references";
-import { StatusConfig } from "../configs";
-import { Method } from "../method";
-import { ExecuitonReference } from "../references";
+import { useStatusReference } from "../references";
+import { StatusComposable } from "../types";
+import { StatusConfig } from "../types/configs";
+import { Method } from "../types/method";
+import { ExecuitonReference } from "../types/references";
 
 export function useStatusComposable<
     TResult,
@@ -12,6 +13,6 @@ export function useStatusComposable<
     referenceFn: (method: Method<TResponse, TArgs>, configuration: StatusConfig<TResult, TResponse, TArgs>) => TReference,
     action: Method<TResponse, TArgs>,
     method: StatusConfig<TResult, TResponse, TArgs, TError>
-) {
+): StatusComposable<TResult, TReference, TResponse, TArgs> {
     return () => useStatusReference(referenceFn, action, method);
 }
