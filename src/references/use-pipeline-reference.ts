@@ -1,19 +1,20 @@
-import { useStatusReference } from "./use-status-reference";
-import { ExecuitonReference, ExecutionConfig, Method } from "../types";
+import { ExecuitonReference, ExecutionConfig, Method, StatusConfig } from "../types";
 import { PipelineReference } from "../types/references/pipeline-reference";
+import { useExecutionComposable, useStatusComposable } from "../composables";
 
 export function usePipelineReference<
     TReference extends ExecuitonReference<TResponse, TArgs>,
-    TMethod extends Method<TResponse, TArgs>,
-    TConfig extends ExecutionConfig<TResponse, TArgs>,
-    TResponse, TArgs extends any[],
+    TResponse,
+    TArgs extends any[],
 >(
-    referenceFn: (method: TMethod, configuration: TConfig) => TReference,
-    method: TMethod,
-    configuration?: TConfig,
+    referenceFn: (method: Method<TResponse, TArgs>, configuration: ExecutionConfig<TResponse, TArgs>) => TReference,
+    method: Method<TResponse, TArgs>,
+    defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): PipelineReference<TReference, TResponse, TArgs> {
     return {
-        execute: () => referenceFn(method, configuration),
-        status: () => useStatusReference(referenceFn, method, configuration),
+        execute: () => useExecutionComposable(method, defaultConfig),
+        status<TResult, TError extends Error = Error>(config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>){
+            return useStatusComposable(referenceFn, method, {...defaultConfig, ...config});
+        }
     }
 }
