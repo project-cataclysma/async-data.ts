@@ -10,7 +10,7 @@ export function useExecutionComposable<
 > (
     action: Method<TResponse, TArgs>,
     defaultConfig: TConfig
-): ExecutionComposable<TConfig, TResponse, TArgs> {
+): ExecutionComposable<TResponse, TArgs> {
     return (config?: Partial<TConfig>) => useExecutionReference(action, {
         ...defaultConfig,
         ...config,

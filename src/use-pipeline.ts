@@ -1,8 +1,7 @@
-import { ExecuitonReference, ExecutionConfig, Method, StatusConfig } from "../types";
-import { PipelineReference } from "../types/references/pipeline-reference";
-import { useExecutionComposable, useStatusComposable } from "../composables";
+import { ExecuitonReference, ExecutionConfig, Method, StatusConfig, Pipeline } from "./types";
+import { useExecutionComposable, useStatusComposable } from "./composables";
 
-export function usePipelineReference<
+export function usePipeline<
     TReference extends ExecuitonReference<TResponse, TArgs>,
     TResponse,
     TArgs extends any[],
@@ -10,7 +9,7 @@ export function usePipelineReference<
     referenceFn: (method: Method<TResponse, TArgs>, configuration: ExecutionConfig<TResponse, TArgs>) => TReference,
     method: Method<TResponse, TArgs>,
     defaultConfig?: ExecutionConfig<TResponse, TArgs>,
-): PipelineReference<TReference, TResponse, TArgs> {
+): Pipeline<TReference, TResponse, TArgs> {
     return {
         execute: () => useExecutionComposable(method, defaultConfig),
         status<TResult, TError extends Error = Error>(config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>){
