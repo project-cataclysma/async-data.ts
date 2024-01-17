@@ -1,4 +1,5 @@
-import { ExecuitonReference, ExecutionConfig, Method, StatusConfig } from "../types";
+import { useStatusReference } from "./use-status-reference";
+import { ExecuitonReference, ExecutionConfig, Method } from "../types";
 import { PipelineReference } from "../types/references/pipeline-reference";
 
 export function usePipelineReference<
@@ -11,8 +12,8 @@ export function usePipelineReference<
     method: TMethod,
     configuration?: TConfig,
 ): PipelineReference<TReference, TResponse, TArgs> {
-    const reference = referenceFn(method, configuration);
     return {
-        ...reference
+        execute: () => referenceFn(method, configuration),
+        status: () => useStatusReference(referenceFn, method, configuration),
     }
 }
