@@ -1,5 +1,5 @@
 import { MaybeRef, toValue } from "vue";
-import { Method, ExecuitonReference, ExecutionConfig } from "../types";
+import { Method, ExecuitonReference, ExecutionConfig, MethodWithParameters, isMethodWithParameters, MethodWithoutParameters } from "../types";
 
 export function useValueReference<
     TReference extends ExecuitonReference<TResponse, TArgs>,
@@ -12,6 +12,6 @@ export function useValueReference<
     configuration: ExecutionConfig<TResponse, TArgs>,
     arg: MaybeRef<TArg>
 ): ExecuitonReference<TResponse, TArgs> {
-    const reference = referenceFn((...args: TArgs) => method(toValue(arg), ...args), configuration);
-    return reference;
+    const methodWithArgs = ((...args: TArgs) => method(toValue(arg), ...args)) as Method<TResponse, TArgs>;
+    return referenceFn(methodWithArgs, configuration);
 }

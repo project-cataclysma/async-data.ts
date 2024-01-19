@@ -1,6 +1,6 @@
-import { ExecuitonReference, ExecutionConfig, Method, StatusConfig, Pipeline, PipelineWithParameters } from "./types";
-import { useExecutionComposable, useStatusComposable, useValueComposable } from "./composables";
-import { isMethodWithParameters } from "./types/method/method-with-parameters";
+import { ExecuitonReference, ExecutionConfig, Method, StatusConfig, Pipeline } from "../types";
+import { useExecutionComposable, useStatusComposable, useValueComposable, useValuesComposable } from "../composables";
+import { isMethodWithParameters } from "../types/method/method-with-parameters";
 
 export function usePipeline<
     TReference extends ExecuitonReference<TResponse, TArgs>,
@@ -20,7 +20,8 @@ export function usePipeline<
         return {
             execute,
             status,
-            value: (arg) => useValueComposable(referenceFn, method, defaultConfig, arg),
+            value: (arg: TArgs[0]) => useValueComposable(referenceFn, method, defaultConfig, arg),
+            values: (...args) => useValuesComposable(referenceFn, method, defaultConfig, ...args),
         } as Pipeline<TReference, TResponse, TArgs>
     } else {
         return {
