@@ -11,11 +11,11 @@ export function usePipeline<
     method: Method<TResponse, TArgs>,
     defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {
-    
     const execute = () => useExecutionComposable(method, defaultConfig);
     const status = <TResult, TError extends Error = Error>(config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>) => {
         return useStatusComposable(referenceFn, method, {...defaultConfig, ...config});
     }
+
     if(isMethodWithParameters(method)) {
         return {
             execute,

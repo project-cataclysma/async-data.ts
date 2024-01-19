@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { delayFunction } from '../delay-function';
-import { useExecutionReference, usePipeline } from '../../src';
+import { usePipelineExecution } from '../../src';
 
-const pipeline = usePipeline(useExecutionReference, delayFunction);
-const dataFn = pipeline.values('test code', false);
+const dataFn = usePipelineExecution(delayFunction).values('test code', false);
 describe('injected values', () => {
     it('returns test code and false', async () => {
         const { execute } = dataFn();

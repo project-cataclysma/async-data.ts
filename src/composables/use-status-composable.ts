@@ -13,7 +13,7 @@ export function useStatusComposable<
     referenceFn: (method: Method<TResponse, TArgs>, configuration: StatusConfig<TResult, TResponse, TArgs>) => TReference,
     action: Method<TResponse, TArgs>,
     defaultConfig: StatusConfig<TResult, TResponse, TArgs, TError>
-): StatusComposable<StatusConfig<TResult, TResponse, TArgs, TError>, TResult, TReference, TResponse, TArgs, TError> {
+): StatusComposable<TResult, TReference, TResponse, TArgs, TError> {
     return (config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>) => useStatusReference(referenceFn, action, {
         ...defaultConfig,
         ...config,
