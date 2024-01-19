@@ -1,5 +1,5 @@
 import { Method } from '../method';
-import { MethodStage } from '../method-stage';
+import { MethodStage } from '../method';
 import { ComputedRef } from "vue"
 
 export type ExecuitonReference<TResponse, TArgs extends any[]> = {

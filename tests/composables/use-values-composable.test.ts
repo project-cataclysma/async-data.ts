@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { delayFunction } from '../delay-function';
-import { useExecutionReference, useValuesComposable, useValuesReference } from '../../src';
+import { useExecutionReference, useValuesComposable } from '../../src';
 
 const dataFn = useValuesComposable(useExecutionReference, delayFunction, {}, 'test code', false)
 describe('injected values', () => {

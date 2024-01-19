@@ -1,14 +1,13 @@
-import { Method } from "../types/method";
+import { Method, MethodStage } from "../types/method";
 import { Ref, computed, ref } from 'vue'
 import { ExecutionConfig } from "../types/configs";
-import { MethodStage } from "../types/method-stage";
 import { ExecuitonReference } from "../types/references/execution-reference";
 
 export function useExecutionReference<TResponse, TArgs extends any[]>(
     method: Method<TResponse, TArgs>,
     configuration?: ExecutionConfig<TResponse, TArgs>
 ): ExecuitonReference<TResponse, TArgs> {
-    configuration ??= {}
+    configuration ??= { }
     const executing = ref(false);
     const executed = ref(false);
     const lastExecuted = ref<Date|null>(null);

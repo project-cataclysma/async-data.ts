@@ -5,6 +5,10 @@ import { specUseStatusReference } from './spec/use-status-reference-spec';
 import { usePipeline } from '../../src';
 import { useExecutionReference } from '../../src/references';
 
+async function ping() {
+    Promise.resolve(true);
+}
+const pipeline2 = usePipeline(useExecutionReference, ping, {});
 const pipeline = usePipeline(useExecutionReference, delayFunction, {});
 const dataFn = pipeline.status({
     getResult: (resp) => resp.result,

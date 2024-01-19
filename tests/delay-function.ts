@@ -33,7 +33,7 @@ export function getDelayFunctionError(response: DelayFunctionResponse): Error|nu
     else return null;
 }
 
-export type DelayFunctionReference = ExecuitonReference<DelayFunctionResponse, [key: string]>;
+export type DelayFunctionReference = ExecuitonReference<DelayFunctionResponse, [key: string, result?: boolean]>;
 export type DelayFunctionStatusReference = StatusReference<boolean, DelayFunctionReference, DelayFunctionResponse, [key: string]>;
 
 export const DelayPending: ExecutionStatus = {

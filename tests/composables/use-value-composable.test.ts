@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { delayFunction } from '../delay-function';
-import { useExecutionReference, useValueComposable, useValueReference } from '../../src';
+import { useExecutionReference, usePipeline } from '../../src';
 import { ref } from 'vue';
 
 const form = ref('test code');
-const dataFn = useValueComposable(useExecutionReference, delayFunction, { }, form)
+const pipeline = usePipeline(useExecutionReference, delayFunction, { });
+const dataFn = pipeline.value(form);
 describe('injected value', () => {
     it('returns test code and updated test code', async () => {
         const { execute } = dataFn();

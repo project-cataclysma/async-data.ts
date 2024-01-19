@@ -1,8 +1,8 @@
 import { it, expect } from 'vitest';
-import { MethodStage } from '../../../src/types/method-stage';
-import { DelayFunctionReference } from '../../delay-function';
+import { MethodStage } from '../../../src/types/method';
+import { DelayFunctionComposable } from '../../delay-function-composable';
 
-export function specUseExecutionReference (dataFn: () => DelayFunctionReference) {
+export function specUseExecutionReference (dataFn: DelayFunctionComposable) {
     it('is executing until released', () => specTracksExecuting(dataFn));
     it('is executed after excution', () => specTracksExecuted(dataFn));
     it('has stage to simplify execution tracking', () => specTracksExecutionStage(dataFn));
@@ -10,7 +10,7 @@ export function specUseExecutionReference (dataFn: () => DelayFunctionReference)
     it('has the correct response', () => specTracksExecutionResponse(dataFn));
 }
 
-export async function specTracksExecuting(dataFn: () => DelayFunctionReference): Promise<void> {
+export async function specTracksExecuting(dataFn: DelayFunctionComposable): Promise<void> {
     const data = dataFn();
     const promise = data.execute('executing');
     expect(data.executing.value, 'returns executing while executing').toBeTruthy();
@@ -18,14 +18,14 @@ export async function specTracksExecuting(dataFn: () => DelayFunctionReference):
     expect(data.executing.value, 'returns false once execution is completed').toBeFalsy();
 }
 
-export async function specTracksExecuted(dataFn: () => DelayFunctionReference): Promise<void> {
+export async function specTracksExecuted(dataFn: DelayFunctionComposable): Promise<void> {
     const data = dataFn();
     const promise = data.execute('executed');
     expect(data.executed.value, 'returns false until after execution has completed').toBeFalsy();
     await promise;
     expect(data.executed.value, 'returns true once execution is completed').toBeTruthy();
 }
-export async function specTracksExecutionStage(dataFn: () => DelayFunctionReference): Promise<void> {
+export async function specTracksExecutionStage(dataFn: DelayFunctionComposable): Promise<void> {
     const data = dataFn();
     expect(data.stage.value, 'return local if not executing and not executed').toEqual(MethodStage.Local);
     const promise = data.execute('stage');
@@ -36,7 +36,7 @@ export async function specTracksExecutionStage(dataFn: () => DelayFunctionRefere
     expect(data.stage.value, 'return local if executing and executed').toEqual(MethodStage.Reexecuting);
 }
 
-export async function specTracksExecutionLastCompletedTime(dataFn: () => DelayFunctionReference): Promise<void> {
+export async function specTracksExecutionLastCompletedTime(dataFn: DelayFunctionComposable): Promise<void> {
     const data = dataFn();
     const before = new Date();
     await data.execute('last-executed');
@@ -45,7 +45,7 @@ export async function specTracksExecutionLastCompletedTime(dataFn: () => DelayFu
     expect(+data.lastExecuted.value, 'timestamp should be older than current time').toBeLessThanOrEqual(+after);
 }
 
-export async function specTracksExecutionResponse(dataFn: () => DelayFunctionReference): Promise<void> {
+export async function specTracksExecutionResponse(dataFn: DelayFunctionComposable): Promise<void> {
     const data = dataFn();
     const promise = data.execute('response');
     expect(data.response.value, 'returns null until execution is completed').toBeNull();

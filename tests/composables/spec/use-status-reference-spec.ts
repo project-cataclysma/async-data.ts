@@ -1,22 +1,21 @@
 import { it, expect } from 'vitest';
-import { DelayFunctionStatusReference } from '../../delay-function';
 import { ExecutionStatusType } from '../../../src/types/status-type';
+import { DelayStatusFunctionComposable } from '../../delay-status-function-composable';
 
-
-export function specUseStatusReference (dataFn: () => DelayFunctionStatusReference) {
+export function specUseStatusReference (dataFn: DelayStatusFunctionComposable) {
     it('extracts results', () => specExtractsResult(dataFn));
     it('extracts status', () => specExtractsStatus(dataFn));
     it('extracts error', () => specExtractsError(dataFn));
 }
 
-export async function specExtractsResult(dataFn: () => DelayFunctionStatusReference): Promise<void> {
+export async function specExtractsResult(dataFn: DelayStatusFunctionComposable): Promise<void> {
     const data = dataFn();
     expect(data.result.value).toBeNull();
     await data.execute('result');
     expect(data.result.value).toBeTruthy();
 }
 
-export async function specExtractsStatus(dataFn: () => DelayFunctionStatusReference) {
+export async function specExtractsStatus(dataFn: DelayStatusFunctionComposable) {
     const data = dataFn();
     expect(data.status.value).toBeNull();
     await data.execute('errored');
@@ -47,7 +46,7 @@ export async function specExtractsStatus(dataFn: () => DelayFunctionStatusRefere
     });
 }
 
-export async function specExtractsError(dataFn: () => DelayFunctionStatusReference) {
+export async function specExtractsError(dataFn: DelayStatusFunctionComposable) {
     const data = dataFn();
     expect(data.error.value).toBeNull();
     await data.execute('success');

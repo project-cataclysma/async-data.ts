@@ -1,5 +1,6 @@
-import { ExecuitonReference, ExecutionConfig, Method, StatusConfig, Pipeline } from "./types";
-import { useExecutionComposable, useStatusComposable } from "./composables";
+import { ExecuitonReference, ExecutionConfig, Method, StatusConfig, Pipeline, PipelineWithParameters } from "./types";
+import { useExecutionComposable, useStatusComposable, useValueComposable } from "./composables";
+import { isMethodWithParameters } from "./types/method/method-with-parameters";
 
 export function usePipeline<
     TReference extends ExecuitonReference<TResponse, TArgs>,
@@ -10,10 +11,21 @@ export function usePipeline<
     method: Method<TResponse, TArgs>,
     defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {
-    return {
-        execute: () => useExecutionComposable(method, defaultConfig),
-        status<TResult, TError extends Error = Error>(config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>){
-            return useStatusComposable(referenceFn, method, {...defaultConfig, ...config});
-        }
+    
+    const execute = () => useExecutionComposable(method, defaultConfig);
+    const status = <TResult, TError extends Error = Error>(config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>) => {
+        return useStatusComposable(referenceFn, method, {...defaultConfig, ...config});
+    }
+    if(isMethodWithParameters(method)) {
+        return {
+            execute,
+            status,
+            value: (arg) => useValueComposable(referenceFn, method, defaultConfig, arg),
+        } as Pipeline<TReference, TResponse, TArgs>
+    } else {
+        return {
+            execute,
+            status,
+        } as Pipeline<TReference, TResponse, TArgs>
     }
 }
