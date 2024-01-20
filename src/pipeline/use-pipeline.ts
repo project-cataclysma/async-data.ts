@@ -12,7 +12,6 @@ import {
   useValuesComposable,
 } from "../composables";
 import { isMethodWithParameters } from "../types/method/method-with-parameters";
-import { useValuesReference } from "../references";
 import { useExecuteReference } from "../references/use-execute-reference";
 
 export function usePipeline<
@@ -46,7 +45,9 @@ export function usePipeline<
       status,
       value: (arg: TArgs[0]) =>
         useValueComposable(referenceFn, method, defaultConfig, arg),
-      values: (...args) =>
+      // TODO: Create a composable to represent this.
+      // This way, we can split the TArgs dynamically.
+      values: (...args: unknown[]) =>
         useValuesComposable(referenceFn, method, defaultConfig, ...args),
     } as Pipeline<TReference, TResponse, TArgs>;
   } else {

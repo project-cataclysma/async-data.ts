@@ -14,9 +14,10 @@ describe("api definition example", () => {
     [name: string, id: number, mode: "cat1" | "cat2"]
   >(doThingAsync);
   const api = {
+    // TODO, make the following inject the status callbacks and reactivity.
     // doThing: doThingPipeline.status({
     //   getResult: (resp) => resp,
-    // }),
+    // }).execute,
     doThing: doThingPipeline.execute,
   };
   it("can run from the original async function", async () => {
@@ -39,8 +40,13 @@ describe("api definition example", () => {
       2,
       "cat2",
     );
+    // TODO, let's see if there is a better way we can watch for variable changes
+    // Perhaps we create a watch around executing/stage, then compare. Else Fail
     let tries = 0;
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    // Code found by Chat GPT. Otherwise I'd give credit to it's owner.
+    // I believe it was scrapped from a post on stack overflow by Romalex
+    // https://stackoverflow.com/questions/76915177/wait-for-the-nexttick-before-asserting-with-vitest
+    const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
     while (!(executing1 && executing2) || tries < 3) {
       await delay(100);
       tries++;
