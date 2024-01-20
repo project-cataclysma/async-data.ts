@@ -1,3 +1,1 @@
-export type GetResult<TResult, TResponse> = (
-    response: TResponse
-) => TResult;
+export type GetResult<TResult, TResponse> = (response: TResponse) => TResult;

@@ -1,4 +1,4 @@
-export type OnSuccess<TResponse, TArgs extends any[]> = (
-    response: TResponse,
-    ...args: TArgs
+export type OnSuccess<TResponse, TArgs extends unknown[]> = (
+  response: TResponse,
+  ...args: TArgs
 ) => void;

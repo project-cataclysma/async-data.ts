@@ -74,7 +74,7 @@ userDownload.execute("123");
 Now, for the fun part, `userDownload` has some extra information that the UI can use for properly rendering a user. The `userDownload` datastructure is as follows:
 
 ```ts
-type MethodReference<TResponse, TArgs extends any[]> = {
+type MethodReference<TResponse, TArgs extends unknown[]> = {
   /**
    * The time the last execution completed at
    */
@@ -126,7 +126,7 @@ export type MethodReferenceStatus<
   TResult,
   TReference extends MethodReference<TResponse, TArgs>,
   TResponse,
-  TArgs extends any[],
+  TArgs extends unknown[],
   TError extends Error = Error,
 > = TReference & {
   /**

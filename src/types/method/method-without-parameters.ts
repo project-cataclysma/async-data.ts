@@ -1,3 +1,1 @@
-export type MethodWithoutParameters<
-    TResponse,
-> = () => Promise<TResponse>;
+export type MethodWithoutParameters<TResponse> = () => Promise<TResponse>;

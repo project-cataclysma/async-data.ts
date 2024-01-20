@@ -1,3 +1,1 @@
-export type OnFinally<TArgs extends any[]> = (
-    ...args: TArgs
-) => void;
+export type OnFinally<TArgs extends unknown[]> = (...args: TArgs) => void;

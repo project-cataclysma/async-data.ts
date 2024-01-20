@@ -1,2 +1,2 @@
-export * from './get';
-export * from './on';
+export * from "./get";
+export * from "./on";

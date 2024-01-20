@@ -1,3 +1,1 @@
-export type GetStatus<TStatus, TResponse> = (
-    response: TResponse
-) => TStatus;
+export type GetStatus<TStatus, TResponse> = (response: TResponse) => TStatus;

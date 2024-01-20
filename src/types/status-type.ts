@@ -1,6 +1,6 @@
 export enum ExecutionStatusType {
-    Pending,
-    Errored,
-    Failed,
-    Successful,
+  Pending,
+  Errored,
+  Failed,
+  Successful,
 }

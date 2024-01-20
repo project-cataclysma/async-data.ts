@@ -1,4 +1,4 @@
-export type OnError<TError extends Error, TArgs extends any[]> = (
-    error: TError,
-    ...args: TArgs
+export type OnError<TError extends Error, TArgs extends unknown[]> = (
+  error: TError,
+  ...args: TArgs
 ) => void;

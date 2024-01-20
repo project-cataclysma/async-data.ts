@@ -1,8 +1,13 @@
 export type MethodWithParameters<
-    TResponse,
-    TArgs extends [arg: any, ...args: any[]],
+  TResponse,
+  TArgs extends [arg: unknown, ...args: unknown[]],
 > = (...args: TArgs) => Promise<TResponse>;
 
-export function isMethodWithParameters<TResponse>(m: (...args: any[]) => void) {
-    return !!(m as MethodWithParameters<TResponse, [arg: any, ...args: any[]]>);
+export function isMethodWithParameters<TResponse>(
+  m: (...args: unknown[]) => void,
+) {
+  return !!(m as MethodWithParameters<
+    TResponse,
+    [arg: unknown, ...args: unknown[]]
+  >);
 }
