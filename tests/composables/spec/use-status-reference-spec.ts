@@ -30,7 +30,9 @@ export async function specExtractsStatus(
   });
   try {
     await data.execute("errored-hard");
-  } catch (_) {}
+  } catch (_) {
+    console.log("error caught");
+  }
   expect(data.status.value).toEqual({
     type: ExecutionStatusType.Errored,
     code: -8000,
