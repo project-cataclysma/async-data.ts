@@ -1,9 +1,5 @@
 import { MaybeRef, toValue } from "vue";
-import {
-  Method,
-  ExecuitonReference,
-  ExecutionConfig,
-} from "../types";
+import { Method, ExecuitonReference, ExecutionConfig } from "../types";
 
 export function useValueReference<
   TReference extends ExecuitonReference<TResponse, TArgs>,
