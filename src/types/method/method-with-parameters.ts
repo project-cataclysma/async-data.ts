@@ -7,7 +7,7 @@ export type MethodWithParameters<
 
 export function isMethodWithParameters<TResponse>(
   m: (...args: unknown[]) => void,
-) {
+): m is MethodWithParameters<TResponse, [arg: unknown, ...args: unknown[]]> {
   return !!(m as MethodWithParameters<
     TResponse,
     [arg: unknown, ...args: unknown[]]

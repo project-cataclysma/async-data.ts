@@ -5,7 +5,7 @@ import { usePipelineExecution } from "../../src";
 
 const dataFn = usePipelineExecution(delayFunction, {
   onSuccess: onDelayFunctionSuccess,
-}).execute();
+}).get();
 
 describe("composable use-execution-reference", () =>
   specUseExecutionReference(dataFn));

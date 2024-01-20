@@ -10,5 +10,6 @@ export type PipelineWithoutParameters<
   status: <TResult, TError extends Error = Error>(
     config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
   ) => StatusComposable<TResult, TReference, TResponse, TArgs, TError>;
-  execute: () => ExecutionComposable<TResponse, TArgs>;
+  execute: (...args: TArgs) => ExecuitonReference<TResponse, []>;
+  get: () => ExecutionComposable<TResponse, TArgs>;
 };
