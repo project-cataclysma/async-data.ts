@@ -15,7 +15,7 @@ export function useValuesReference<
   ...arg: TArg
 ): ExecuitonReference<TResponse, TArgs> {
   const reference = referenceFn(
-    ((...args: TArgs) => method(...arg, ...args)) as Method<TResponse, TArgs>,
+    (...args: TArgs) => method(...arg, ...args),
     configuration,
   );
   return reference;

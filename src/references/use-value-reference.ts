@@ -15,7 +15,8 @@ export function useValueReference<
   configuration: ExecutionConfig<TResponse, TArgs>,
   arg: MaybeRef<TArg>,
 ): ExecuitonReference<TResponse, TArgs> {
-  const methodWithArgs = ((...args: TArgs) =>
-    method(toValue(arg), ...args)) as Method<TResponse, TArgs>;
-  return referenceFn(methodWithArgs, configuration);
+  return referenceFn(
+    (...args: TArgs) => method(toValue(arg), ...args),
+    configuration,
+  );
 }

@@ -1,9 +1,9 @@
-import { MethodWithoutParameters } from "./method-without-parameters";
+import { Method } from "./method";
 
 export type MethodWithParameters<
   TResponse,
   TArgs extends [arg: unknown, ...args: unknown[]],
-> = MethodWithoutParameters<TResponse, TArgs>;
+> = Method<TResponse, TArgs>;
 
 export function isMethodWithParameters<TResponse>(
   m: (...args: unknown[]) => void,

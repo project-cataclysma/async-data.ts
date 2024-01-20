@@ -65,7 +65,7 @@ export function useExecutionReference<TResponse, TArgs extends unknown[]>(
 
   return {
     lastExecuted: computed(() => lastExecuted.value),
-    execute: execute as Method<TResponse, TArgs>,
+    execute,
     executing: computed(() => executing.value),
     executed: computed(() => executed.value),
     response: computed(() => response.value),
