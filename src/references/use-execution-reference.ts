@@ -13,7 +13,7 @@ export function useExecutionReference<TResponse, TArgs extends unknown[]>(
   const lastExecuted = ref<Date | null>(null);
   const response = ref<TResponse | null>(null) as Ref<TResponse | null>;
 
-  async function execute(...args: TArgs) {
+  async function execute(...args: TArgs): Promise<TResponse> {
     if (configuration.beforeExecute)
       await Promise.resolve(configuration.beforeExecute(...args));
 
@@ -65,7 +65,7 @@ export function useExecutionReference<TResponse, TArgs extends unknown[]>(
 
   return {
     lastExecuted: computed(() => lastExecuted.value),
-    execute,
+    execute: execute as Method<TResponse, TArgs>,
     executing: computed(() => executing.value),
     executed: computed(() => executed.value),
     response: computed(() => response.value),

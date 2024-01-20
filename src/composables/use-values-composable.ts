@@ -1,4 +1,4 @@
-import { useValueReference, useValuesReference } from "../references";
+import { useValuesReference } from "../references";
 import { ExecutionComposable } from "../types";
 import { ExecutionConfig } from "../types/configs";
 import { Method } from "../types/method";

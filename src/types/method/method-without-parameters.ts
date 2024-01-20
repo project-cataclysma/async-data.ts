@@ -1,1 +1,1 @@
-export type MethodWithoutParameters<TResponse> = () => Promise<TResponse>;
+export type MethodWithoutParameters<TResponse, TArgs extends unknown[] = []> = (...args: TArgs) => Promise<TResponse>;

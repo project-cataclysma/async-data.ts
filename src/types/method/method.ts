@@ -6,4 +6,4 @@ export type Method<TResponse, TArgs extends unknown[]> = TArgs extends [
   ...pn: unknown[],
 ]
   ? MethodWithParameters<TResponse, TArgs>
-  : MethodWithoutParameters<TResponse>;
+  : MethodWithoutParameters<TResponse, TArgs>;
