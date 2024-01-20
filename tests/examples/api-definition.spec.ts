@@ -14,9 +14,10 @@ describe("api definition example", () => {
     [name: string, id: number, mode: "cat1" | "cat2"]
   >(doThingAsync);
   const api = {
-    doThing: doThingPipeline.status({
-      getResult: (resp) => resp,
-    }),
+    // doThing: doThingPipeline.status({
+    //   getResult: (resp) => resp,
+    // }),
+    doThing: doThingPipeline.execute,
   };
   it("can run from the original async function", async () => {
     const user1 = await doThingAsync("user", 1, "cat1");
@@ -25,10 +26,11 @@ describe("api definition example", () => {
     expect(user2).toBe("user-2");
   });
   it("can be ranas a pipeline with little modification", async () => {
-    // TODO #1, api.doThing() needs to look more like: api.doThing('user', :id, :mode)
+    // DONE #1, api.doThing() needs to look more like: api.doThing('user', :id, :mode)
     // TODO #2, we need a way to automatically schedule execution so we can remove execution aliasing
-    const { result: user1, execute: execute1 } = api.doThing();
-    const { result: user2, execute: execute2 } = api.doThing();
+    // TODO #3, we need a way to be able to nest pipeline actions. Such as running value, status and execute.
+    const { result: user1, execute: execute1 } = api.doThing("user", 1, "cat1");
+    const { result: user2, execute: execute2 } = api.doThing("user", 2, "cat2");
     await execute1("user", 1, "cat1");
     await execute2("user", 2, "cat2");
     expect(user1.value).toBe("user/1");
