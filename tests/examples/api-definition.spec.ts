@@ -27,12 +27,24 @@ describe("api definition example", () => {
   });
   it("can be ranas a pipeline with little modification", async () => {
     // DONE #1, api.doThing() needs to look more like: api.doThing('user', :id, :mode)
-    // TODO #2, we need a way to automatically schedule execution so we can remove execution aliasing
+    // DONE #2, we need a way to automatically schedule execution so we can remove execution aliasing
     // TODO #3, we need a way to be able to nest pipeline actions. Such as running value, status and execute.
-    const { result: user1, execute: execute1 } = api.doThing("user", 1, "cat1");
-    const { result: user2, execute: execute2 } = api.doThing("user", 2, "cat2");
-    await execute1("user", 1, "cat1");
-    await execute2("user", 2, "cat2");
+    const { response: user1, executing: executing1 } = api.doThing(
+      "user",
+      1,
+      "cat1",
+    );
+    const { response: user2, executing: executing2 } = api.doThing(
+      "user",
+      2,
+      "cat2",
+    );
+    let tries = 0;
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    while (!(executing1 && executing2) || tries < 3) {
+      await delay(100);
+      tries++;
+    }
     expect(user1.value).toBe("user/1");
     expect(user2.value).toBe("user-2");
   });

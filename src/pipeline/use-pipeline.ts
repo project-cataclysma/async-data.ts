@@ -13,6 +13,7 @@ import {
 } from "../composables";
 import { isMethodWithParameters } from "../types/method/method-with-parameters";
 import { useValuesReference } from "../references";
+import { useExecuteReference } from "../references/use-execute-reference";
 
 export function usePipeline<
   TReference extends ExecuitonReference<TResponse, TArgs>,
@@ -28,7 +29,7 @@ export function usePipeline<
 ): Pipeline<TReference, TResponse, TArgs> {
   const get = () => useExecutionComposable(method, defaultConfig);
   const execute = (...args: TArgs) =>
-    useValuesReference(referenceFn, method, defaultConfig, ...args);
+    useExecuteReference(referenceFn, method, defaultConfig, ...args);
   const status = <TResult, TError extends Error = Error>(
     config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
   ) => {
