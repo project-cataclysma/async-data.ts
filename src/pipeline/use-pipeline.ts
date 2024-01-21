@@ -36,7 +36,11 @@ export function usePipeline<
   );
 
   if (isMethodWithParameters(method)) {
-    const value = usePipelineValueComposable(referenceFn, method);
+    const value = usePipelineValueComposable(
+      referenceFn,
+      method,
+      defaultConfig,
+    );
     const values = usePipelineValuesComposable(
       referenceFn,
       method,

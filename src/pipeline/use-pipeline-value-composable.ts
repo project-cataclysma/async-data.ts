@@ -12,7 +12,7 @@ export function usePipelineValueComposable<
     configuration: ExecutionConfig<TResponse, PN>,
   ) => TReference,
   method: Method<TResponse, TArgs>,
-  defaultConfig?: ExecutionConfig<TResponse, TArgs>,
+  defaultConfig?: ExecutionConfig<TResponse, PN>,
 ) {
   return (arg: TArgs[0]) =>
     useValueComposable(referenceFn, method, defaultConfig, arg);
