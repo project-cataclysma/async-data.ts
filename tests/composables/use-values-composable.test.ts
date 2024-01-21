@@ -4,7 +4,7 @@ import {
   DelayFunctionResponse,
   delayFunction,
 } from "../delay-function";
-import { PipelineWithParameters, usePipelineExecution } from "../../src";
+import { PipelineWithParameters, usePipelineExecution } from "../../dist";
 
 type DelayFunctionArgs = [key: string, result?: boolean];
 type DelayFunctionPipeline = PipelineWithParameters<

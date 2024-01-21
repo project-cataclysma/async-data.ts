@@ -1,6 +1,10 @@
-import { ExecuitonReference, StatusReference } from "../src/types";
-import { ExecutionStatus } from "../src/types/status";
-import { ExecutionStatusType } from "../src/types/status-type";
+import {
+  ExecutionStatus,
+  ExecutionStatusType,
+  ExecuitonReference,
+  Method,
+  StatusReference,
+} from "../dist";
 
 export type DelayFunctionResponse = { key: string; result: boolean };
 
@@ -9,12 +13,17 @@ export const EmptyDelayFunctionResponse: DelayFunctionResponse = {
   result: false,
 };
 
-export async function delayFunction(
+async function _delayFunction(
   key: string,
   result: boolean = true,
 ): Promise<DelayFunctionResponse> {
   return { key, result };
 }
+
+export const delayFunction: Method<
+  DelayFunctionResponse,
+  [key: string, result?: boolean]
+> = _delayFunction;
 
 export function getDelayFunctionStatus(
   response: DelayFunctionResponse,

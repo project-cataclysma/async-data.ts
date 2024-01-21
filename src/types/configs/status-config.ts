@@ -1,7 +1,7 @@
 import { ExecutionConfig } from "./execution-config";
 import { GetError, GetResult, GetStatus } from "../callbacks";
 import { OnFailure } from "../callbacks";
-import { ExecutionStatus } from "../status";
+import { ExecutionStatus } from "../execution-status";
 
 export type StatusConfig<
   TResult,

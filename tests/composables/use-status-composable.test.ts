@@ -6,7 +6,7 @@ import {
   getDelayFunctionError,
 } from "../delay-function";
 import { specUseStatusReference } from "./spec/use-status-reference-spec";
-import { usePipelineExecution } from "../../src";
+import { usePipelineExecution } from "../../dist";
 
 const dataFn = usePipelineExecution(delayFunction).status({
   getResult: (resp) => resp.result,

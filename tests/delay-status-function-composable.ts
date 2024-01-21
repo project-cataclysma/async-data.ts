@@ -1,4 +1,4 @@
-import { StatusComposable } from "../src";
+import { StatusComposable } from "../dist";
 import {
   DelayFunctionReference,
   DelayFunctionResponse,

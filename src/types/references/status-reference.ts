@@ -1,5 +1,5 @@
 import { ExecuitonReference } from "./execution-reference";
-import { ExecutionStatus } from "../status";
+import { ExecutionStatus } from "../execution-status";
 import { Ref } from "vue";
 
 export type StatusReference<

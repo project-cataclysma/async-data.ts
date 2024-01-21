@@ -1,4 +1,4 @@
-import { ExecutionComposable } from "../src";
+import { ExecutionComposable } from "../dist";
 import { DelayFunctionResponse } from "./delay-function";
 
 export type DelayFunctionComposable = ExecutionComposable<

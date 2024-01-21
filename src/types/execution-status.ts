@@ -1,4 +1,4 @@
-import type { ExecutionStatusType } from "./status-type";
+import type { ExecutionStatusType } from "./execution-status-type";
 
 export type ExecutionStatus<E = unknown> = {
   type: ExecutionStatusType;

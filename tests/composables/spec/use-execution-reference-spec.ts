@@ -1,6 +1,6 @@
 import { it, expect } from "vitest";
-import { MethodStage } from "../../../src/types/method";
 import { DelayFunctionComposable } from "../../delay-function-composable";
+import { MethodStage } from "../../../dist";
 
 export function specUseExecutionReference(dataFn: DelayFunctionComposable) {
   it("is executing until released", () => specTracksExecuting(dataFn));

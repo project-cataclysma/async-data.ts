@@ -1,8 +1,7 @@
 import { Ref, ref } from "vue";
 import { Method, ExecuitonReference, StatusReference } from "../types";
 import { StatusConfig } from "../types/configs/status-config";
-import { ExecutionStatus } from "../types/status";
-import { ExecutionStatusType } from "../types/status-type";
+import { ExecutionStatus, ExecutionStatusType } from "../types";
 
 export function useStatusReference<
   TResult,

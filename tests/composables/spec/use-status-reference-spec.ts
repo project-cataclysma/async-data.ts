@@ -1,5 +1,5 @@
 import { it, expect } from "vitest";
-import { ExecutionStatusType } from "../../../src/types/status-type";
+import { ExecutionStatusType } from "../../../dist";
 import { DelayStatusFunctionComposable } from "../../delay-status-function-composable";
 
 export function specUseStatusReference(dataFn: DelayStatusFunctionComposable) {

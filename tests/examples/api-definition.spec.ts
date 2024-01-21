@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { usePipelineExecution } from "../../src";
+import { usePipelineExecution } from "../../dist";
 
 describe("api definition example", () => {
   function doThingAsync(
