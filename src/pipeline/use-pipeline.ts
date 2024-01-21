@@ -2,17 +2,14 @@ import {
   ExecutionReference,
   ExecutionConfig,
   Method,
-  StatusConfig,
   Pipeline,
 } from "../types";
-import {
-  useExecutionComposable,
-  useStatusComposable,
-  useValueComposable,
-} from "../composables";
 import { isMethodWithParameters } from "../types/method/method-with-parameters";
 import { usePipelineValuesComposable } from "./use-pipeline-values-composable";
-import { useExecuteComposable } from "../composables/use-execute-composable";
+import { usePipelineExecuteComposable } from "./use-pipeline-execute-composable";
+import { usePipelineStatusComposable } from "./use-pipeline-status-composable";
+import { usePipelineGetComposable } from "./use-pipeline-get-composable";
+import { usePipelineValueComposable } from "./use-pipeline-value-composable";
 
 export function usePipeline<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -26,21 +23,21 @@ export function usePipeline<
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {
-  const get = () => useExecutionComposable(method, defaultConfig);
-  const execute = () =>
-    useExecuteComposable(referenceFn, method, defaultConfig);
-  const status = <TResult, TError extends Error = Error>(
-    config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
-  ) => {
-    return useStatusComposable(referenceFn, method, {
-      ...defaultConfig,
-      ...config,
-    });
-  };
+  // const get = usePipelineGetComposable(referenceFn, method, defaultConfig);
+  const get = usePipelineGetComposable(method, defaultConfig);
+  const execute = usePipelineExecuteComposable(
+    referenceFn,
+    method,
+    defaultConfig,
+  );
+  const status = usePipelineStatusComposable(
+    referenceFn,
+    method,
+    defaultConfig,
+  );
 
   if (isMethodWithParameters(method)) {
-    const value = (arg: TArgs[0]) =>
-      useValueComposable(referenceFn, method, defaultConfig, arg);
+    const value = usePipelineValueComposable(referenceFn, method);
     const values = usePipelineValuesComposable(
       referenceFn,
       method,
