@@ -1,5 +1,5 @@
 {
-  "name": "@project-cataclysma/execution-reference",
+  "name": "execution-reference",
   "version": "0.1.0",
   "files": [
     "dist",
@@ -34,6 +34,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/project-cataclysma/async-data.ts.git"
+    "url": "git+https://github.com/project-cataclysma/execution-reference.ts.git"
   }
 }
