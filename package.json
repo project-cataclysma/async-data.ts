@@ -1,5 +1,5 @@
 {
-  "name": "execution-reference",
+  "name": "@project-cataclysma/execution-reference",
   "version": "0.1.0",
   "files": [
     "dist",
