@@ -17,8 +17,8 @@ describe("api definition example", () => {
     // TODO, make the following inject the status callbacks and reactivity.
     // doThing: doThingPipeline.status({
     //   getResult: (resp) => resp,
-    // }).execute,
-    doThing: doThingPipeline.execute,
+    // }).execute(),
+    doThing: doThingPipeline.execute(),
   };
   it("can run from the original async function", async () => {
     const user1 = await doThingAsync("user", 1, "cat1");

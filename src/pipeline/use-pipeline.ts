@@ -1,5 +1,5 @@
 import {
-  ExecuitonReference,
+  ExecutionReference,
   ExecutionConfig,
   Method,
   StatusConfig,
@@ -11,11 +11,11 @@ import {
   useValueComposable,
 } from "../composables";
 import { isMethodWithParameters } from "../types/method/method-with-parameters";
-import { useExecuteReference } from "../references/use-execute-reference";
 import { usePipelineValuesComposable } from "./use-pipeline-values-composable";
+import { useExecuteComposable } from "../composables/use-execute-composable";
 
 export function usePipeline<
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
 >(
@@ -27,8 +27,8 @@ export function usePipeline<
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {
   const get = () => useExecutionComposable(method, defaultConfig);
-  const execute = (...args: TArgs) =>
-    useExecuteReference(referenceFn, method, defaultConfig, ...args);
+  const execute = () =>
+    useExecuteComposable(referenceFn, method, defaultConfig);
   const status = <TResult, TError extends Error = Error>(
     config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
   ) => {

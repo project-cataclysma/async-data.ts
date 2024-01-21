@@ -1,8 +1,8 @@
-import { Method, ExecutionConfig, ExecuitonReference } from "../types";
+import { Method, ExecutionConfig, ExecutionReference } from "../types";
 import { useValuesComposable } from "../composables";
 
 export function usePipelineValuesComposable<
-  TReference extends ExecuitonReference<TResponse, [...pi: TPI, ...pf: TPF]>,
+  TReference extends ExecutionReference<TResponse, [...pi: TPI, ...pf: TPF]>,
   TResponse,
   TPI extends unknown[],
   TPF extends unknown[],

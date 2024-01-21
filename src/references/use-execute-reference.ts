@@ -1,5 +1,5 @@
 import { watchEffect } from "vue";
-import { Method, ExecuitonReference, ExecutionConfig } from "../types";
+import { Method, ExecutionReference, ExecutionConfig } from "../types";
 
 /**
  * NOTE, this composable is not the same as the useExecutionReference
@@ -11,7 +11,7 @@ import { Method, ExecuitonReference, ExecutionConfig } from "../types";
  * @param args
  */
 export function useExecuteReference<
-  TReference extends ExecuitonReference<TResponse, []>,
+  TReference extends ExecutionReference<TResponse, []>,
   TResponse,
   TArgs extends unknown[],
 >(
@@ -22,7 +22,7 @@ export function useExecuteReference<
   method: Method<TResponse, [...args: TArgs]>,
   configuration: ExecutionConfig<TResponse, TArgs>,
   ...args: TArgs
-): ExecuitonReference<TResponse, TArgs> {
+): ExecutionReference<TResponse, []> {
   const reference = referenceFn(() => method(...args), configuration);
   reference.execute();
   watchEffect(reference.execute);

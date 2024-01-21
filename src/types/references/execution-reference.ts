@@ -2,7 +2,7 @@ import { Method } from "../method";
 import { MethodStage } from "../method";
 import { ComputedRef } from "vue";
 
-export type ExecuitonReference<TResponse, TArgs extends unknown[]> = {
+export type ExecutionReference<TResponse, TArgs extends unknown[]> = {
   /**
    * The time the last execution completed at
    */

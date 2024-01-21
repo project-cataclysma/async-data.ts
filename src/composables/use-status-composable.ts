@@ -2,11 +2,11 @@ import { useStatusReference } from "../references";
 import { StatusComposable } from "../types";
 import { StatusConfig } from "../types/configs";
 import { Method } from "../types/method";
-import { ExecuitonReference } from "../types/references";
+import { ExecutionReference } from "../types/references";
 
 export function useStatusComposable<
   TResult,
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
   TError extends Error,

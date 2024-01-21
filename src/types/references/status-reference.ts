@@ -1,10 +1,10 @@
-import { ExecuitonReference } from "./execution-reference";
+import { ExecutionReference } from "./execution-reference";
 import { ExecutionStatus } from "../execution-status";
 import { Ref } from "vue";
 
 export type StatusReference<
   TResult,
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
   TError extends Error = Error,

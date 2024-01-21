@@ -1,4 +1,4 @@
-import { Method, ExecuitonReference, StatusReference } from "../types";
+import { Method, ExecutionReference, StatusReference } from "../types";
 import { StatusConfig } from "../types/configs/status-config";
 import { useExecutionReference } from "./use-execution-reference";
 import { useStatusReference } from "./use-status-reference";
@@ -13,7 +13,7 @@ export function useStatusReferenceExecution<
   configuration?: StatusConfig<TResult, TResponse, TArgs, TError>,
 ): StatusReference<
   TResult,
-  ExecuitonReference<TResponse, TArgs>,
+  ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs,
   TError

@@ -1,5 +1,5 @@
 import {
-  ExecuitonReference,
+  ExecutionReference,
   ExecutionConfig,
   Method,
   Pipeline,
@@ -10,6 +10,6 @@ import { usePipeline } from "./use-pipeline";
 export function usePipelineExecution<TResponse, TArgs extends unknown[]>(
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
-): Pipeline<ExecuitonReference<TResponse, TArgs>, TResponse, TArgs> {
+): Pipeline<ExecutionReference<TResponse, TArgs>, TResponse, TArgs> {
   return usePipeline(useExecutionReference, method, defaultConfig);
 }

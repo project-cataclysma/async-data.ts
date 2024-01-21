@@ -1,9 +1,9 @@
 import { StatusConfig } from "../configs";
-import { ExecuitonReference, StatusReference } from "../references";
+import { ExecutionReference, StatusReference } from "../references";
 
 export type StatusComposable<
   TResult,
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
   TError extends Error = Error,

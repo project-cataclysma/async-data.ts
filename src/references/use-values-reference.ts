@@ -1,7 +1,7 @@
-import { Method, ExecuitonReference, ExecutionConfig } from "../types";
+import { Method, ExecutionReference, ExecutionConfig } from "../types";
 
 export function useValuesReference<
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArg extends unknown[],
   TArgs extends unknown[],
@@ -13,7 +13,7 @@ export function useValuesReference<
   method: Method<TResponse, [...arg: TArg, ...args: TArgs]>,
   configuration: ExecutionConfig<TResponse, TArgs>,
   ...arg: TArg
-): ExecuitonReference<TResponse, TArgs> {
+): ExecutionReference<TResponse, TArgs> {
   const reference = referenceFn(
     (...args: TArgs) => method(...arg, ...args),
     configuration,

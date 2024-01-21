@@ -2,10 +2,10 @@ import { useValuesReference } from "../references";
 import { ExecutionComposable } from "../types";
 import { ExecutionConfig } from "../types/configs";
 import { Method } from "../types/method";
-import { ExecuitonReference } from "../types/references";
+import { ExecutionReference } from "../types/references";
 
 export function useValuesComposable<
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArg extends unknown[],
   TArgs extends unknown[],

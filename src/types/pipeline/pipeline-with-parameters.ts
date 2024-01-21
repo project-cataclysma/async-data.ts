@@ -1,11 +1,11 @@
 import { MaybeRef } from "vue";
 import { ExecutionComposable } from "../composables";
-import { ExecuitonReference } from "../references/execution-reference";
+import { ExecutionReference } from "../references/execution-reference";
 import { PipelineValuesComposable } from "./pipeline-values-composable";
 import { PipelineWithoutParameters } from ".";
 
 export type PipelineWithParameters<
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends [p1: P1, ...pn: PN],
   P1,

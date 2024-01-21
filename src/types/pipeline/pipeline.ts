@@ -1,9 +1,9 @@
-import { ExecuitonReference } from "../references/execution-reference";
+import { ExecutionReference } from "../references/execution-reference";
 import { PipelineWithParameters } from "./pipeline-with-parameters";
 import { PipelineWithoutParameters } from "./pipeline-without-parameters";
 
 export type Pipeline<
-  TReference extends ExecuitonReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
 > = TArgs extends [p1: infer P1, ...pn: infer PN]
