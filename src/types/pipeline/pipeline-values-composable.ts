@@ -1,4 +1,4 @@
-import { ExecutionComposable } from "..";
+import { ExecutionComposable } from "../composables";
 
 export type PipelineValuesComposable<
   TResponse,
