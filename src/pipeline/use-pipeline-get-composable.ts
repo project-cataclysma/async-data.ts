@@ -1,19 +1,17 @@
-import { useExecutionComposable } from "../composables";
-import { ExecutionConfig, Method } from "../types";
+import { ExecutionConfig, ExecutionReference, Method } from "../types";
 
 export function usePipelineGetComposable<
-  //   TReference extends ExecutionReference<TResponse, TArgs>,
+  TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
 >(
-  //   referenceFn: (
-  //     method: Method<TResponse, TArgs>,
-  //     configuration: ExecutionConfig<TResponse, TArgs>,
-  //   ) => TReference,
+  referenceFn: (
+    method: Method<TResponse, TArgs>,
+    configuration: ExecutionConfig<TResponse, TArgs>,
+  ) => TReference,
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ) {
-  return (config?: Partial<ExecutionConfig<TResponse, TArgs>>) =>
-    // referenceFn(method, { ...defaultConfig, ...config });
-    useExecutionComposable(method, { ...defaultConfig, ...config });
+  return (config?: Partial<ExecutionConfig<TResponse, TArgs>>) => () =>
+    referenceFn(method, { ...defaultConfig, ...config });
 }

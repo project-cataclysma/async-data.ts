@@ -11,5 +11,5 @@ export type PipelineWithoutParameters<
     config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
   ) => StatusComposable<TResult, TReference, TResponse, TArgs, TError>;
   execute: () => (...args: TArgs) => ExecutionReference<TResponse, []>;
-  get: () => ExecutionComposable<TResponse, TArgs>;
+  get: () => ExecutionComposable<TResponse, TArgs, TReference>;
 };

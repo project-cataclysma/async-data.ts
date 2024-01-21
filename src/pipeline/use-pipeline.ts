@@ -23,8 +23,7 @@ export function usePipeline<
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {
-  // const get = usePipelineGetComposable(referenceFn, method, defaultConfig);
-  const get = usePipelineGetComposable(method, defaultConfig);
+  const get = usePipelineGetComposable(referenceFn, method, defaultConfig);
   const execute = usePipelineExecuteComposable(
     referenceFn,
     method,
