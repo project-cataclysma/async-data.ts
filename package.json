@@ -1,5 +1,5 @@
 {
-  "name": "data-async",
+  "name": "execution-reference",
   "version": "0.1.0",
   "files": ["dist", "LICENSE", "README.md", "package.json"],
   "main": "dist/index.js",
