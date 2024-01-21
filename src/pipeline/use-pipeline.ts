@@ -51,8 +51,6 @@ export function usePipeline<
       get,
       status,
       value,
-      // TODO: Create a composable to represent this.
-      // This way, we can split the TArgs dynamically.
       values,
     } as Pipeline<TReference, TResponse, TArgs>;
   } else {

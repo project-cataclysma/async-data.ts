@@ -1,4 +1,8 @@
-import { ExecutionComposable, StatusComposable } from "../composables";
+import {
+  ExecuteComposable,
+  ExecutionComposable,
+  StatusComposable,
+} from "../composables";
 import { StatusConfig } from "../configs";
 import { ExecutionReference } from "../references/execution-reference";
 
@@ -10,6 +14,6 @@ export type PipelineWithoutParameters<
   status: <TResult, TError extends Error = Error>(
     config?: Partial<StatusConfig<TResult, TResponse, TArgs, TError>>,
   ) => StatusComposable<TResult, TReference, TResponse, TArgs, TError>;
-  execute: () => (...args: TArgs) => ExecutionReference<TResponse, []>;
+  execute: () => ExecuteComposable<TResponse, TArgs>;
   get: () => ExecutionComposable<TResponse, TArgs, TReference>;
 };
