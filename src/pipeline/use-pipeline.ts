@@ -9,10 +9,10 @@ import {
   useExecutionComposable,
   useStatusComposable,
   useValueComposable,
-  useValuesComposable,
 } from "../composables";
 import { isMethodWithParameters } from "../types/method/method-with-parameters";
 import { useExecuteReference } from "../references/use-execute-reference";
+import { usePipelineValuesComposable } from "./use-pipeline-values-composable";
 
 export function usePipeline<
   TReference extends ExecuitonReference<TResponse, TArgs>,
@@ -39,16 +39,21 @@ export function usePipeline<
   };
 
   if (isMethodWithParameters(method)) {
+    const value = (arg: TArgs[0]) =>
+      useValueComposable(referenceFn, method, defaultConfig, arg);
+    const values = usePipelineValuesComposable(
+      referenceFn,
+      method,
+      defaultConfig,
+    );
     return {
       execute,
       get,
       status,
-      value: (arg: TArgs[0]) =>
-        useValueComposable(referenceFn, method, defaultConfig, arg),
+      value,
       // TODO: Create a composable to represent this.
       // This way, we can split the TArgs dynamically.
-      values: (...args: unknown[]) =>
-        useValuesComposable(referenceFn, method, defaultConfig, ...args),
+      values,
     } as Pipeline<TReference, TResponse, TArgs>;
   } else {
     return {

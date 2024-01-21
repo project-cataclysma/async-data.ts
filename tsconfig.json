@@ -1,11 +1,12 @@
 {
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "compileOnSave": true,
   "compilerOptions": {
     "declaration": true,
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "sourceMap": true,
-    "target": "ESNext",
+    "target": "ES2018",
+    "module": "NodeNext",
   },
 }

@@ -2,7 +2,10 @@ import { ExecutionComposable } from "..";
 
 export type PipelineValuesComposable<
   TResponse,
-  TArgs extends [arg: unknown, ...args: unknown[]],
-> = TArgs extends [...input: infer TI, ...remaining: infer TR]
+  TArgs extends unknown[],
+> = TArgs extends [
+  ...input: infer TI extends unknown[],
+  ...remaining: infer TR extends unknown[],
+]
   ? (...args: TI) => ExecutionComposable<TResponse, TR>
   : ExecutionComposable<TResponse, []>;
