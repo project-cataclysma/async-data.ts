@@ -7,6 +7,6 @@
     "outDir": "./dist",
     "sourceMap": true,
     "target": "ES2018",
-    "module": "NodeNext",
+    "module": "ES2015",
   },
 }
