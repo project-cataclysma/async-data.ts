@@ -10,6 +10,7 @@ import { usePipelineExecuteComposable } from "./use-pipeline-execute-composable"
 import { usePipelineStatusComposable } from "./use-pipeline-status-composable";
 import { usePipelineGetComposable } from "./use-pipeline-get-composable";
 import { usePipelineValueComposable } from "./use-pipeline-value-composable";
+import { usePipelineFormComposable } from "./use-pipeline-form-composable";
 
 export function usePipeline<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -41,6 +42,7 @@ export function usePipeline<
       method,
       defaultConfig,
     );
+    const form = usePipelineFormComposable(referenceFn, method, defaultConfig);
     const values = usePipelineValuesComposable(
       referenceFn,
       method,
@@ -48,6 +50,7 @@ export function usePipeline<
     );
     return {
       execute,
+      form,
       get,
       status,
       value,

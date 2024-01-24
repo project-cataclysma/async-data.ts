@@ -2,6 +2,7 @@ import { ExecutionReference } from "../references/execution-reference";
 import { PipelineValuesComposable } from "./pipeline-values-composable";
 import { PipelineWithoutParameters } from ".";
 import { PipelineValueComposable } from "./pipeline-value-composable";
+import { PipelineFormComposable } from "./pipeline-form-composable";
 
 export type PipelineWithParameters<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -10,6 +11,7 @@ export type PipelineWithParameters<
   P1,
   PN extends unknown[],
 > = PipelineWithoutParameters<TReference, TResponse, TArgs> & {
+  form: PipelineFormComposable<TResponse, P1, PN>;
   value: PipelineValueComposable<TResponse, P1, PN>;
   values: PipelineValuesComposable<TResponse, TArgs>;
 };

@@ -1,8 +1,7 @@
-import { MaybeRef } from "vue";
-import { useValueComposable } from "../composables";
+import { useFormComposable } from "../composables";
 import { ExecutionConfig, ExecutionReference, Method } from "../types";
 
-export function usePipelineValueComposable<
+export function usePipelineFormComposable<
   TReference extends ExecutionReference<TResponse, PN>,
   TResponse,
   TArgs extends [p0: unknown, ...pn: PN],
@@ -15,6 +14,6 @@ export function usePipelineValueComposable<
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, PN>,
 ) {
-  return (arg: MaybeRef<TArgs[0]>) =>
-    useValueComposable(referenceFn, method, defaultConfig, arg);
+  return (arg: TArgs[0]) =>
+    useFormComposable(referenceFn, method, defaultConfig, arg);
 }
