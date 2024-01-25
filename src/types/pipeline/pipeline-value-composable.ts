@@ -1,6 +1,7 @@
 import { MaybeRef } from "vue";
-import { ExecutionComposable } from "../composables";
+import { ExecutionReference } from "../references";
+import { Pipeline } from "./pipeline";
 
 export type PipelineValueComposable<TResponse, P1, PN extends unknown[]> = (
   arg: MaybeRef<P1>,
-) => ExecutionComposable<TResponse, PN>;
+) => Pipeline<ExecutionReference<TResponse, PN>, TResponse, PN>;

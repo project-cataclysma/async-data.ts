@@ -4,7 +4,7 @@ import { usePipelineExecution } from "../../dist";
 import { ref } from "vue";
 
 const form = ref("test code");
-const dataFn = usePipelineExecution(delayFunction).value(form);
+const dataFn = usePipelineExecution(delayFunction).value(form).get();
 
 describe("injected value", () => {
   it("returns test code and updated test code", async () => {
