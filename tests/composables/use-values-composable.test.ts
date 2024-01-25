@@ -3,7 +3,7 @@ import { delayFunction } from "../delay-function";
 import { usePipelineExecution } from "../../dist";
 
 const pipeline = usePipelineExecution(delayFunction);
-const dataFn = pipeline.values("test code", false).get();
+const dataFn = pipeline.values("test code", false);
 describe("injected values", () => {
   it("returns test code and false", async () => {
     const { execute } = dataFn();

@@ -11,6 +11,7 @@ import { usePipelineStatusComposable } from "./use-pipeline-status-composable";
 import { usePipelineGetComposable } from "./use-pipeline-get-composable";
 import { usePipelineValueComposable } from "./use-pipeline-value-composable";
 import { usePipelineFormComposable } from "./use-pipeline-form-composable";
+import { usePipelineReactiveComposable } from "./use-pipeline-reactive-composable";
 
 export function usePipeline<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -37,6 +38,11 @@ export function usePipeline<
   );
 
   if (isMethodWithParameters(method)) {
+    const reactive = usePipelineReactiveComposable(
+      referenceFn,
+      method,
+      defaultConfig,
+    );
     const value = usePipelineValueComposable(
       referenceFn,
       method,
@@ -52,6 +58,7 @@ export function usePipeline<
       execute,
       form,
       get,
+      reactive,
       status,
       value,
       values,
