@@ -1,10 +1,10 @@
-import { useValueReference } from "../references";
+import { useFormReference } from "../references";
 import { ExecutionComposable } from "../types";
 import { ExecutionConfig } from "../types/configs";
 import { Method } from "../types/method";
 import { ExecutionReference } from "../types/references";
 
-export function useValueComposable<
+export function useFormComposable<
   TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArg,
@@ -17,16 +17,16 @@ export function useValueComposable<
   ) => TReference,
   action: Method<TResponse, [arg: TArg, ...args: TArgs]>,
   defaultConfig: ExecutionConfig<TResponse, TArgs, TError>,
-  arg: TArg,
+  initialValue: TArg,
 ): ExecutionComposable<TResponse, TArgs> {
   return (config?: Partial<ExecutionConfig<TResponse, TArgs, TError>>) =>
-    useValueReference(
+    useFormReference(
       referenceFn,
       action,
       {
         ...defaultConfig,
         ...config,
       },
-      arg,
+      initialValue,
     );
 }

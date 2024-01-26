@@ -1,8 +1,9 @@
+import { MaybeRef, toValue } from "vue";
 import { ExecutionConfig, ExecutionReference, Method } from "../types";
 import { PipelineValueComposable } from "../types/pipeline/pipeline-value-composable";
 import { usePipeline } from ".";
 
-export function usePipelineValueComposable<
+export function usePipelineReactiveComposable<
   TReference extends ExecutionReference<TResponse, PN>,
   TResponse,
   P1,
@@ -15,10 +16,10 @@ export function usePipelineValueComposable<
   method: Method<TResponse, [p1: P1, ...args: PN]>,
   defaultConfig?: ExecutionConfig<TResponse, PN>,
 ): PipelineValueComposable<TResponse, P1, PN> {
-  return (arg: P1) =>
+  return (arg: MaybeRef<P1>) =>
     usePipeline(
       referenceFn,
-      (...args: PN) => method(arg, ...args),
+      (...args: PN) => method(toValue(arg), ...args),
       defaultConfig,
     );
 }
