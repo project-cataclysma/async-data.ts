@@ -12,16 +12,14 @@ import { usePipelineGetComposable } from "./use-pipeline-get-composable";
 import { usePipelineValueComposable } from "./use-pipeline-value-composable";
 import { usePipelineFormComposable } from "./use-pipeline-form-composable";
 import { usePipelineReactiveComposable } from "./use-pipeline-reactive-composable";
+import { ComposableBuilder } from "../types/composables/composable-builder";
 
 export function usePipeline<
   TReference extends ExecutionReference<TResponse, TArgs>,
   TResponse,
   TArgs extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: ExecutionConfig<TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ): Pipeline<TReference, TResponse, TArgs> {

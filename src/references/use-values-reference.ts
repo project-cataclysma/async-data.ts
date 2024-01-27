@@ -1,4 +1,9 @@
-import { Method, ExecutionReference, ExecutionConfig } from "../types";
+import {
+  ComposableBuilder,
+  Method,
+  ExecutionReference,
+  ExecutionConfig,
+} from "../types";
 
 export function useValuesReference<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -6,10 +11,7 @@ export function useValuesReference<
   TArg extends unknown[],
   TArgs extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: ExecutionConfig<TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   method: Method<TResponse, [...arg: TArg, ...args: TArgs]>,
   configuration: ExecutionConfig<TResponse, TArgs>,
   ...arg: TArg

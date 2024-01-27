@@ -1,5 +1,6 @@
 import { Ref, ref } from "vue";
 import {
+  ComposableBuilder,
   Method,
   ExecutionReference,
   ExecutionConfig,
@@ -12,10 +13,7 @@ export function useFormReference<
   TArg,
   TArgs extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: ExecutionConfig<TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   method: Method<TResponse, [arg: TArg, ...args: TArgs]>,
   configuration: ExecutionConfig<TResponse, TArgs>,
   initialValue: TArg,

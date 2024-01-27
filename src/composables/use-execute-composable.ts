@@ -1,8 +1,8 @@
 import { ExecutionConfig } from "../types/configs";
-import { ExecuteComposable } from "../types/composables";
+import { ComposableBuilder, ExecuteComposable } from "../types/composables";
 import { Method } from "../types/method";
 import { useExecuteReference } from "../references/use-execute-reference";
-import { ExecutionReference } from "..";
+import { ExecutionReference } from "../types/references";
 
 export function useExecuteComposable<
   TReference extends ExecutionReference<TResponse, TArgs>,
@@ -10,10 +10,7 @@ export function useExecuteComposable<
   TResponse,
   TArgs extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: ExecutionConfig<TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   action: Method<TResponse, TArgs>,
   defaultConfig: TConfig,
 ): ExecuteComposable<TResponse, TArgs> {
