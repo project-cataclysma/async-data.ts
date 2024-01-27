@@ -1,5 +1,6 @@
 import { useStatusComposable } from "../composables";
 import {
+  ComposableBuilder,
   ExecutionConfig,
   ExecutionReference,
   Method,

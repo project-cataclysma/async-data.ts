@@ -9,7 +9,7 @@ export function usePipelineValueComposable<
   P1,
   PN extends unknown[],
 >(
-  referenceFn: ComposableBuilder<TReference, TResponse, [p1: P1, ...pn: PN]>,
+  referenceFn: ComposableBuilder<TReference, TResponse, PN>,
   method: Method<TResponse, [p1: P1, ...args: PN]>,
   defaultConfig?: ExecutionConfig<TResponse, PN>,
 ): PipelineValueComposable<TResponse, P1, PN> {

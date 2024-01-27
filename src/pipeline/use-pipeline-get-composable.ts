@@ -1,4 +1,9 @@
-import { ExecutionConfig, ExecutionReference, Method } from "../types";
+import {
+  ComposableBuilder,
+  ExecutionConfig,
+  ExecutionReference,
+  Method,
+} from "../types";
 
 export function usePipelineGetComposable<
   TReference extends ExecutionReference<TResponse, TArgs>,

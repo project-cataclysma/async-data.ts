@@ -1,5 +1,10 @@
 import { Ref, ref } from "vue";
-import { Method, ExecutionReference, StatusReference } from "../types";
+import {
+  ComposableBuilder,
+  Method,
+  ExecutionReference,
+  StatusReference,
+} from "../types";
 import { StatusConfig } from "../types/configs/status-config";
 import { ExecutionStatus, ExecutionStatusType } from "../types";
 
@@ -10,10 +15,7 @@ export function useStatusReference<
   TArgs extends unknown[],
   TError extends Error,
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: StatusConfig<TResult, TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   method: Method<TResponse, TArgs>,
   configuration?: StatusConfig<TResult, TResponse, TArgs, TError>,
 ): StatusReference<TResult, TReference, TResponse, TArgs, TError> {

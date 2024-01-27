@@ -1,5 +1,10 @@
 import { MaybeRef, toValue } from "vue";
-import { ExecutionConfig, ExecutionReference, Method } from "../types";
+import {
+  ComposableBuilder,
+  ExecutionConfig,
+  ExecutionReference,
+  Method,
+} from "../types";
 import { PipelineValueComposable } from "../types/pipeline/pipeline-value-composable";
 import { usePipeline } from ".";
 

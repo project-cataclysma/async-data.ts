@@ -1,5 +1,10 @@
 import { useFormComposable } from "../composables";
-import { ExecutionConfig, ExecutionReference, Method } from "../types";
+import {
+  ComposableBuilder,
+  ExecutionConfig,
+  ExecutionReference,
+  Method,
+} from "../types";
 
 export function usePipelineFormComposable<
   TReference extends ExecutionReference<TResponse, PN>,
