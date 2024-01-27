@@ -1,4 +1,4 @@
-import { Method, ExecutionConfig, ExecutionReference } from "../types";
+import { Method, ExecutionConfig, ExecutionReference, ComposableBuilder } from "../types";
 import { useValuesComposable } from "../composables";
 
 export function usePipelineValuesComposable<
@@ -7,10 +7,7 @@ export function usePipelineValuesComposable<
   TPI extends unknown[],
   TPF extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, [...pi: TPI, ...pf: TPF]>,
-    configuration: ExecutionConfig<TResponse, [...pi: TPI, ...pf: TPF]>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, [...pi: TPI, ...pf: TPF]>,
   method: Method<TResponse, [...pi: TPI, ...pf: TPF]>,
   defaultConfig?: ExecutionConfig<TResponse, [...pi: TPI, ...pf: TPF]>,
 ) {

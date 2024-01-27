@@ -1,5 +1,5 @@
 import { useStatusReference } from "../references";
-import { StatusComposable } from "../types";
+import { ComposableBuilder, StatusComposable } from "../types";
 import { StatusConfig } from "../types/configs";
 import { Method } from "../types/method";
 import { ExecutionReference } from "../types/references";
@@ -11,10 +11,7 @@ export function useStatusComposable<
   TArgs extends unknown[],
   TError extends Error,
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: StatusConfig<TResult, TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   action: Method<TResponse, TArgs>,
   defaultConfig: StatusConfig<TResult, TResponse, TArgs, TError>,
 ): StatusComposable<TResult, TReference, TResponse, TArgs, TError> {

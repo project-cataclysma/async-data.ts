@@ -7,10 +7,7 @@ export function usePipelineFormComposable<
   TArgs extends [p0: unknown, ...pn: PN],
   PN extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, PN>,
-    configuration: ExecutionConfig<TResponse, PN>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, PN>,
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, PN>,
 ) {

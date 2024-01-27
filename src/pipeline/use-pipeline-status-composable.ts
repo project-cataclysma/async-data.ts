@@ -11,10 +11,7 @@ export function usePipelineStatusComposable<
   TResponse,
   TArgs extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, TArgs>,
-    configuration: ExecutionConfig<TResponse, TArgs>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, TArgs>,
   method: Method<TResponse, TArgs>,
   defaultConfig?: ExecutionConfig<TResponse, TArgs>,
 ) {

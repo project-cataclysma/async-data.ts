@@ -1,6 +1,7 @@
 import { ExecutionConfig, ExecutionReference, Method } from "../types";
 import { PipelineValueComposable } from "../types/pipeline/pipeline-value-composable";
 import { usePipeline } from ".";
+import { ComposableBuilder } from "../types/composables/composable-builder";
 
 export function usePipelineValueComposable<
   TReference extends ExecutionReference<TResponse, PN>,
@@ -8,10 +9,7 @@ export function usePipelineValueComposable<
   P1,
   PN extends unknown[],
 >(
-  referenceFn: (
-    method: Method<TResponse, PN>,
-    configuration: ExecutionConfig<TResponse, PN>,
-  ) => TReference,
+  referenceFn: ComposableBuilder<TReference, TResponse, [p1: P1, ...pn: PN]>,
   method: Method<TResponse, [p1: P1, ...args: PN]>,
   defaultConfig?: ExecutionConfig<TResponse, PN>,
 ): PipelineValueComposable<TResponse, P1, PN> {
