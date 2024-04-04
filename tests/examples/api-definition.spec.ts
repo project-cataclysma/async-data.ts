@@ -18,31 +18,7 @@ describe("api definition example", () => {
     });
   }
   const doThingPipeline = pipe(doThingAsync, useExecutionReference);
-  const doThingStatusConfig: StatusReferenceConfig<DoThingArgs, DoThingOut, string, number, Error | undefined> = {
-    getResult: (output: DoThingOut) => output.data,
-    getStatus: (output: DoThingOut) => output.code,
-    getStatusType: (code: number) => (code === 0 ? ExecutionStatusType.SUCCESS : ExecutionStatusType.FAILURE) as ExecutionStatusType,
-    getError: (status: DoThingOut) => undefined,
-  }
-  function statusReferenceBuilder(
-    execution: Execution<DoThingArgs, DoThingOut>,
-    config?: ExecutionReferenceBuilderConfig<DoThingArgs, DoThingOut>,
-  ) {
-    return useStatusReference<
-      ExecutionReference<DoThingArgs, DoThingOut>,
-      DoThingArgs,
-      DoThingOut,
-      string,
-      number,
-      Error | undefined
-    >(useExecutionReference(execution, config), doThingStatusConfig)
-  }
-  const useStatusReferenceBuilder: ExecutionReferenceBuilder<
-    ExecutionReference<DoThingArgs, DoThingOut>,
-    DoThingArgs,
-    DoThingOut
-  > = statusReferenceBuilder;
-  const doThingStatusPipeline = doThingPipeline.then(useStatusReference, doThingStatusConfig);
+
   const api = {
     // TODO, make the following inject the status callbacks and reactivity.
     // doThing: doThingPipeline.status({

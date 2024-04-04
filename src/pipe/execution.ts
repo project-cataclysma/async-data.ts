@@ -14,7 +14,7 @@ export class Execution<TI extends unknown[], TO> {
         return new Execution(transformation(this.execute));
     }
 
-    compose(): Composable<TI, TO, [], TI> {
+    compose(): Composable<[], TI, TO> {
         return new Composable(this);
     }
 

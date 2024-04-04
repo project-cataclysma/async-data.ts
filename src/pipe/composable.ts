@@ -1,33 +1,39 @@
 import { Execution } from "./execution";
 
 export class Composable<
-    TI extends [...tc: TC, ...te: TE],
-    TO,
     TC extends unknown[],
-    TE extends unknown[]
+    TE extends unknown[],
+    TO,
 > {
     constructor(
-        protected execution: Execution<TE, TO>,
+        protected execution: Execution<[...tc: TC, ...te: TE], TO>,
     ) {
 
     }
 
     apply<TCN extends unknown[], TEN extends unknown[]>(
-        transformation: (execution: Execution<TE, TO>) => (Execution<TEN, TO>),
-    ): Composable<[...tc: TCN, ...tn: TEN], TO, TCN, TEN> {
-        const newExecution = transformation(this.execution);
-        return new Composable(newExecution);
+        transformation: (execution: Execution<[...tc: TC, ...te: TE], TO>) => (Execution<[...tcn: TCN, ...ten: TEN], TO>),
+    ): Composable<TCN, TEN, TO> {
+        return new Composable(transformation(this.execution));
     }
 
     with<TCN extends unknown[], TEN extends unknown[]>(
-        transformation: (execute: (...args: TE) => TO) => ((...args: TEN) => TO),
-    ): Composable<[...tc: TCN, ...tn: TEN], TO, TCN, TEN> {
-        return this.apply((execution) => {
-            return execution.with(transformation)
-        });
+        transformation: (execute: (...args: [...tc: TC, ...te: TE]) => TO) => ((...args: TEN) => TO),
+    ): Composable<TCN, TEN, TO> {
+        return this.apply((execution) => execution.with(transformation));
     }
 
-    reference() {
-        return (...args: TC) => this.execution.reference();
+    with2<TCN extends unknown[], TEN extends unknown[]>(
+        transformation: (
+            execute: (...args: [...tc: TC, ...te: TE]) => TO
+        ) => ((...args: [...cargs: TCN, ...targs: TEN]) => TO),
+    ): Composable<TCN, TEN, TO> {
+        return this.apply((execution) => execution.with(transformation));
+    }
+
+    reference(): (...args: TC) => Execution<TE, TO> {
+        return (...cargs: TC) => this.execution.with(exec => {
+            return (...eargs: TE) => exec(...cargs, ...eargs)
+        });
     }
 }
