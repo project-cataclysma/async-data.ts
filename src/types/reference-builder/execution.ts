@@ -1,1 +1,0 @@
-export type Execution<TI extends unknown[], TO> = (...args: TI) => TO | Promise<TO> 
