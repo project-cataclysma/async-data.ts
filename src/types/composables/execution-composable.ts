@@ -1,11 +1,8 @@
-import { ExecutionConfig } from "../../types";
-import { ExecutionReference } from "../references";
+import { ExecutionReference } from "../references/execution-reference";
 
 export type ExecutionComposable<
-  TResponse,
-  TArgs extends unknown[],
-  TReference extends ExecutionReference<TResponse, TArgs> = ExecutionReference<
-    TResponse,
-    TArgs
-  >,
-> = (config?: Partial<ExecutionConfig<TResponse, TArgs>>) => TReference;
+    TReference extends ExecutionReference<TEI, TO>,
+    TCI extends unknown[],
+    TEI extends unknown[],
+    TO
+> = (...tci: TCI) => TReference
