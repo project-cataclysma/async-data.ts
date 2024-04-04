@@ -8,7 +8,10 @@ import { ReferenceTransfomer } from "../types/transformers";
 export class Pipeline<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
     constructor(
         public execution: Execution<TI, TO>,
-        public referenceBuilder: ExecutionReferenceBuilder<TR, TI, TO>
+        public transformer: (
+            execution: Execution<TI, TO>,
+            config?: ExecutionReferenceBuilderConfig<TI, TO>
+        ) => TR,
     ) {
 
     }
@@ -19,14 +22,14 @@ export class Pipeline<TI extends unknown[], TO, TR extends ExecutionReference<TI
     ): Pipeline<TI, TO, TRN> {
         return new Pipeline(
             this.execution,
-            (...args) => transformer(this.referenceBuilder(...args), ...ttargs)
+            (...args) => transformer(this.transformer(...args), ...ttargs),
         );
     }
 
     reference(
         config?: ExecutionReferenceBuilderConfig<TI, TO>
     ): TR {
-        return this.referenceBuilder(this.execution, config);
+        return this.transformer(this.execution, config);
     }
 
     composable(
