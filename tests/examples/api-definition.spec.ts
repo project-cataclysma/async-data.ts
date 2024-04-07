@@ -36,14 +36,13 @@ describe("api definition example", () => {
     expect(user2.data).toBe("user-2");
   });
   it("can be ran as a pipeline with little modification", async () => {
-    const { executed: executed1, result: result1 } = api.doThing(
-      "user",
-      1,
-      "cat1");
-    const { executed: executed2, result: result2 } = api.doThing(
-      "user",
-      2,
-      "cat2");
+    // The execution structure is similar to calling the async method.
+    // const { output: user1 } = api.doThing("user", 1, "cat1") <=> const user1 = await doThingAsync("user", 1, "cat1")
+    // Replace RegEx "const (.*) = await doThingAsync(.*)" with "const { result: $1 } = api.doThing$2"
+    // NOTE, you'll need to update code to handle data as a vue reference, instead of the original raw value.
+    const { executed: executed1, output: user1, result: result1 } = api.doThing("user", 1, "cat1");
+    const { executed: executed2, output: user2, result: result2 } = api.doThing("user", 2, "cat2");
+
     // TODO, let's see if there is a better way we can watch for variable changes
     // Perhaps we create a watch around executed/stage, then compare. Else Fail
     // Code improved from an example found by Chat GPT. Otherwise I'd give credit to it's owner.
@@ -54,6 +53,10 @@ describe("api definition example", () => {
       if (executed1.value && executed2.value) break;
       await delay(100);
     }
+    expect(user1.value.data).toBe("user/1");
+    expect(user2.value.data).toBe("user-2");
+    // Async call needed post-processing to simplify accessing data.
+    // But now we can inline this via transformers.
     expect(result1.value).toBe("user/1");
     expect(result2.value).toBe("user-2");
   })
