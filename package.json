@@ -14,7 +14,9 @@
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --fix",
+    "format": "prettier . --write"
   },
   "author": "Dyllan Macias",
   "license": "Apache-2.0",
