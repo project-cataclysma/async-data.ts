@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { usePipelineExecution } from "../../dist";
+import { pipeline } from "../../src";
 
 describe("api definition example", () => {
   function submitForm(data: {
@@ -8,7 +8,7 @@ describe("api definition example", () => {
   }): Promise<boolean> {
     return Promise.resolve(data.email && data.email === data.password);
   }
-  const doThingPipeline = usePipelineExecution(submitForm);
+  const doThingPipeline = pipeline(submitForm);
   const api = {
     doThing: doThingPipeline.form({ email: "", password: "" }),
   };

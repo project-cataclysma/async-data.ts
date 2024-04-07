@@ -4,7 +4,7 @@ import {
   ExecuitonReference,
   Method,
   StatusReference,
-} from "../dist";
+} from "../src/types";
 
 export type DelayFunctionResponse = { key: string; result: boolean };
 
