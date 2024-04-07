@@ -35,7 +35,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
             executing: computed(() => executing.value),
             executed: computed(() => executed.value),
             execute,
-            output,
+            output: computed(() => output.value),
         })
     }
 }
