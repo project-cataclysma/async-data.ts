@@ -4,7 +4,7 @@ import { ReferenceBuilder } from "./reference-builder";
 
 export class ExecutionBuilder<TI extends unknown[], TO> {
     constructor(
-        public execute: (...args: TI) => TO | Promise<TO>,
+        public execute: (...args: TI) => Promise<TO> | TO,
     ) {
 
     }

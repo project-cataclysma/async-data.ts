@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { usePipe } from '../../../src/pipe/use-pipe'
 import { statusReferenceTransformer } from "../../../src/references/status-reference-transformer";
 import { computed } from "vue";
+import { ExecutionReference } from "../../../src/types";
 
 describe('piped execution', () => {
     async function asyncMethod(a: number, b: number, c: string) {
@@ -21,18 +22,15 @@ describe('piped execution', () => {
     })
 
     it('allows reference encapsulation', async () => {
-        const reference = pipeline.then((r) => {
-            return {
-                ...r,
-                result: computed(() => r.output.value)
-            };
-        }
+        const reference = pipeline.then(
+            (r) => statusReferenceTransformer<[a: number, b: number, c: string], string, ExecutionReference<[a: number, b: number, c: string], string>, string>(r, (output) => output.toUpperCase()),
         ).build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
-        await reference.execute(10, 4, '19');
+        await reference.execute(10, 4, 'apple');
         expect(reference.executing.value).toBeFalsy();
-        expect(reference.result.value).toBe('19')
+        expect(reference.output.value).toBe('apple')
+        expect(reference.result.value).toBe('APPLE')
         // expect(reference.executed.value).toBeTruthy();
     })
 })
