@@ -1,3 +1,4 @@
+import { ExecutionReference } from "../types";
 import { ComposableBuilder } from "./composable-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
@@ -22,8 +23,8 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
         return new ComposableBuilder(this.with(transformation));
     }
 
-    reference(): ReferenceBuilder<TI, TO> {
-        return new ReferenceBuilder(this);
+    reference(): ReferenceBuilder<TI, TO, ExecutionReference<TI, TO>> {
+        return new ReferenceBuilder(this, (r) => r);
     }
 
     build() {

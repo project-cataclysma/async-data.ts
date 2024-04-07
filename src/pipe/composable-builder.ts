@@ -1,3 +1,4 @@
+import { ExecutionReference } from "../types";
 import { ExecutionBuilder } from "./execution-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
@@ -7,7 +8,7 @@ export class ComposableBuilder<
     TO,
 > {
     constructor(
-        protected execution: ExecutionBuilder<[...tc: TC, ...te: TE], TO>,
+        public execution: ExecutionBuilder<[...tc: TC, ...te: TE], TO>,
     ) {
     }
 
@@ -24,7 +25,7 @@ export class ComposableBuilder<
         return this.apply((execution) => execution.with(transformation));
     }
 
-    reference(): (...cargs: TC) => ReferenceBuilder<TE, TO> {
+    reference(): (...cargs: TC) => ReferenceBuilder<TE, TO, ExecutionReference<TE, TO>> {
         return (...cargs: TC) => this.execution
             .with(exec => (...eargs: TE) => exec(...cargs, ...eargs))
             .reference();

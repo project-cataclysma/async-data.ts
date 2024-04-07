@@ -1,20 +1,16 @@
+import { ExecutionReference } from "../types";
 import { ExecutionBuilder } from "./execution-builder";
 import { computed, ref } from 'vue';
 
-export class ReferenceBuilder<TI extends unknown[], TO> {
+export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
     constructor(
-        protected execution: ExecutionBuilder<TI, TO>
+        protected execution: ExecutionBuilder<TI, TO>,
+        protected transform: (executionReference: ExecutionReference<TI, TO>) => TR,
     ) {
 
     }
 
-    then<TR extends ReferenceBuilder<TI, TO>>(
-        transform: (reference: this) => TR
-    ): TR {
-        return transform(this);
-    }
-
-    build() {
+    build(): TR {
         const method = this.execution.execute;
         const executing = ref(false);
         const executed = ref(false);
@@ -28,11 +24,11 @@ export class ReferenceBuilder<TI extends unknown[], TO> {
                 return _output;
             });
         }
-        return {
+        return this.transform({
             executing: computed(() => executing.value),
             executed: computed(() => executing.value),
             execute,
             output,
-        }
+        })
     }
 }
