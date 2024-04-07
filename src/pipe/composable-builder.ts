@@ -1,4 +1,5 @@
 import { ExecutionReference } from "../types";
+import { ComposableReferenceBuilder } from "./composable-reference-builder";
 import { ExecutionBuilder } from "./execution-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
@@ -25,16 +26,11 @@ export class ComposableBuilder<
         return this.apply((execution) => execution.with(transformation));
     }
 
-    reference(): (...cargs: TC) => ReferenceBuilder<TE, TO, ExecutionReference<TE, TO>> {
-        return (...cargs: TC) => this.execution
-            .with(exec => (...eargs: TE) => exec(...cargs, ...eargs))
-            .reference();
+    reference(): ComposableReferenceBuilder<TC, TE, TO, ExecutionReference<TE, TO>> {
+        return new ComposableReferenceBuilder(this.execution, r => r);
     }
-
+    
     build() {
-        return (...cargs: TC) => this.execution
-            .with(exec => (...eargs: TE) => exec(...cargs, ...eargs))
-            .reference()
-            .build();
+        return (new ComposableReferenceBuilder(this.execution, r => r)).build();
     }
 }

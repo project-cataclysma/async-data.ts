@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { ReferenceBuilder } from "../../src/pipe/reference-builder";
 import { ExecutionBuilder } from "../../src/pipe/execution-builder";
+import { statusReferenceTransformer } from "../../src/references/status-reference-transformer";
+import { ExecutionReference } from "../../src/types";
 
 describe("api definition example", () => {
   type DoThingArgs = [name: string, id: number, mode: 'cat1' | 'cat2'];
@@ -15,7 +17,9 @@ describe("api definition example", () => {
       code: Math.max(0, id),
     });
   }
-  const doThingPipeline = (new ExecutionBuilder(doThingAsync)).compose().with2<DoThingArgs, []>(e => e).execute;
+  const doThingPipeline = (new ExecutionBuilder(doThingAsync)).composable<DoThingArgs, []>(e => e).reference().then(
+    (r) => statusReferenceTransformer<[], DoThingOut, ExecutionReference<[], DoThingOut>, string>(r, (output) => output.data),
+  ).build();
 
   const api = {
     // TODO, make the following inject the status callbacks and reactivity.
@@ -34,14 +38,18 @@ describe("api definition example", () => {
     // DONE #1, api.doThing() needs to look more like: api.doThing('user', :id, :mode)
     // DONE #2, we need a way to automatically schedule execution so we can remove execution aliasing
     // TODO #3, we need a way to be able to nest pipeline actions. Such as running value, status and execute.
-    const { executed: executed1, output: result1 } = api.doThing(
+    const { executed: executed1, execute: execute1, result: result1 } = api.doThing(
       "user",
       1,
-      "cat1")().build();
-    const { executed: executed2, output: result2 } = api.doThing(
+      "cat1");
+    const e1 = execute1();
+    const { executed: executed2, execute: execute2, result: result2 } = api.doThing(
       "user",
       2,
-      "cat2")().build();
+      "cat2");
+    const e2 = execute2();
+    await e1;
+    await e2;
     // TODO, let's see if there is a better way we can watch for variable changes
     // Perhaps we create a watch around executed/stage, then compare. Else Fail
     let tries = 0;
