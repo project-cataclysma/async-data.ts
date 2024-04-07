@@ -4,13 +4,13 @@ import { ReferenceBuilder } from "./reference-builder";
 
 export class ExecutionBuilder<TI extends unknown[], TO> {
     constructor(
-        public execute: (...args: TI) => TO,
+        public execute: (...args: TI) => TO | Promise<TO>,
     ) {
 
     }
 
     with<TIN extends unknown[]>(
-        transformation: (execute: (...args: TI) => TO) => ((...args: TIN) => TO),
+        transformation: (execute: (...args: TI) => TO | Promise<TO>) => ((...args: TIN) => TO | Promise<TO>),
     ): ExecutionBuilder<TIN, TO> {
         return new ExecutionBuilder(transformation(this.execute));
     }

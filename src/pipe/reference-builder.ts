@@ -10,6 +10,12 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
 
     }
 
+    then<TRN extends TR> (
+        transform: (executionReference: TR) => TRN
+    ): ReferenceBuilder<TI, TO, TRN> {
+        return new ReferenceBuilder(this.execution, (r) => transform(this.transform(r)));
+    }
+
     build(): TR {
         const method = this.execution.execute;
         const executing = ref(false);
