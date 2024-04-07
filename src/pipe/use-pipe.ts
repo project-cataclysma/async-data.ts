@@ -1,5 +1,5 @@
-import { Execution } from "./execution";
+import { ExecutionBuilder } from "./execution-builder";
 
 export function usePipe<TI extends unknown[], TO>(method: (...args: TI) => TO) {
-    return new Execution(method);
+    return new ExecutionBuilder(method);
 }
