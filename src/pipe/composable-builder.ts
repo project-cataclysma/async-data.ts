@@ -1,7 +1,6 @@
 import { ExecutionReference } from "../types";
 import { ComposableReferenceBuilder } from "./composable-reference-builder";
 import { ExecutionBuilder } from "./execution-builder";
-import { ReferenceBuilder } from "./reference-builder";
 
 export class ComposableBuilder<
     TC extends unknown[],
@@ -24,6 +23,10 @@ export class ComposableBuilder<
         transformation: (execute: (...args: [...tc: TC, ...te: TE]) => TO) => ((...args: TEN) => TO),
     ): ComposableBuilder<TCN, TEN, TO> {
         return this.apply((execution) => execution.with(transformation));
+    }
+
+    withAll(): ComposableBuilder<[...tc: TC, ...te: TE], [], TO> {
+        return this.with<[...tc: TC, ...te: TE], []>(exec => exec);
     }
 
     reference(): ComposableReferenceBuilder<TC, TE, TO, ExecutionReference<TE, TO>> {

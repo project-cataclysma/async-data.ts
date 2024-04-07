@@ -23,6 +23,10 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
         return new ComposableBuilder(this.with(transformation));
     }
 
+    composableAll(): ComposableBuilder<TI, [], TO> {
+        return new ComposableBuilder(this.with(exec => exec));
+    }
+
     reference(): ReferenceBuilder<TI, TO, ExecutionReference<TI, TO>> {
         return new ReferenceBuilder(this, (r) => r);
     }

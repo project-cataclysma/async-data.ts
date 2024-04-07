@@ -33,7 +33,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
         }
         return this.transform({
             executing: computed(() => executing.value),
-            executed: computed(() => executing.value),
+            executed: computed(() => executed.value),
             execute,
             output,
         })
