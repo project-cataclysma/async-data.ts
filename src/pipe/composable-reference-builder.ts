@@ -1,4 +1,5 @@
 import { ExecutionReference } from "../types";
+import { ApiDeinition } from "../types/api-definition";
 import { ExecutionBuilder } from "./execution-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
@@ -23,5 +24,17 @@ export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown
     build(): (...cargs: TC) => TR {
         const reference = this.reference();
         return (...cargs: TC) => reference(...cargs).build();
+    }
+
+    async(...cargs: TC): (...args: TE) => Promise<TO> {
+        return (...eargs: TE) => Promise.resolve(this.execution.execute(...cargs, ...eargs))
+    }
+
+    api(): ApiDeinition<TC, TE, TO, TR> {
+        return {
+            async: (...args: [...ti: TC, ...te: TE]) => Promise.resolve(this.execution.execute(...args)),
+            composable: (...cargs: TC) => this.async(...cargs),
+            reference: this.build()
+        }
     }
 }
