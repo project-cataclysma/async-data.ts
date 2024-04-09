@@ -15,7 +15,6 @@ export class ComposableBuilder<
     apply<TCN extends unknown[], TEN extends unknown[]>(
         transformation: (execution: ExecutionBuilder<[...tc: TC, ...te: TE], TO>) => (ExecutionBuilder<[...tcn: TCN, ...ten: TEN], TO>),
     ): ComposableBuilder<TCN, TEN, TO> {
-        this
         return new ComposableBuilder(transformation(this.execution));
     }
 
