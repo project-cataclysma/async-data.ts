@@ -14,9 +14,21 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: yarn ci
-      - run: yarn test
+          node-version: 20
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+        # env:
+        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build # will run `yarn build` command
+      - name: Test the app
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test # will run `yarn test` command
 
   publish-npm:
     needs: build
@@ -25,9 +37,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: yarn ci
-      - run: yarn publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
