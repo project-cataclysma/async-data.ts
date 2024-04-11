@@ -16,7 +16,9 @@ This library is currently in development, and is still unstable. It is likely th
 
 # Installation
 
-No Published packages (yet).
+```bash
+npm i @project-cataclysma/execution-reference
+```
 
 # Getting Started
 
@@ -32,7 +34,7 @@ type User = {
   email: string;
   imageUrl: string;
 };
-async function downloadUser(id: string): Promise<Response<User>> {
+async function downloadUserAsync(id: string): Promise<Response<User>> {
   return Promise.resolve({
     data: {
       id,
@@ -46,104 +48,83 @@ async function downloadUser(id: string): Promise<Response<User>> {
 The End goal is to have an API that allows the developer to do the following:
 
 ```diff
--const user = await downloadUser(userId).then(response => response.data);
-+const { result: user } = useDataApi().downloadUser(userId);
+-const user = await downloadUserAsync(userId).then(response => response.data);
++const { output: user } = useDataApi().downloadUser(userId);
 ```
 
 This would simplify the upating of a large codebase to a simple RegEx replacement.
 
 ```regex
-^const (\W) = downloadUser\((.*)\)$
-const { result: $1 } = useDataApi().downloadUser($2)
+^const (\W) = downloadUserAsync\((.*)\)$
+const { output: $1 } = useDataApi().downloadUser($2)
 ```
 
-## Base Methods
+## The Pipeline
 
-### Use Method (Track Response and Execution)
+To convert a method into a composable such as the example above, create a composable such as `use-data-api.ts`:
+```ts
+import { downloadUserAsync } from './functions/user';
+import { usePipe } from '@project-cataclysma/execution-reference';
 
-This is the original method for this library. The idea is just to wrap the execution with some metadata. It can be used as such:
+function useDataApi() {
+  return {
+    downloadUser: usePipe(downloadUserAsync).composableAll().build();
+  }
+}
+```
+
+# Usage
+
+The intended use of this library is by a functional syntax.
+This Syntax has 2 phases: `execution` and `reference`.
+
+NOTE: The `execution` phase may represent the method itself, or as a `composable`.
+
+## Execution Phase
+
+This phase of the pipeline can be started either by creating an `ExecutionBuilder` class, or by using the `usePipe` method.
+
+The purpose for this phase is for modifying the functions signature. Specifically for parameter injection and post processing.
+*NOTE: Post processing is not supported yet.*
+
+Execution Builders can also be transformed into a `ComposableBuilder`, which allows for parameter injection during setup time.
+
+## Reference Phase
+
+This phase of the pipeline can be started by calling the `reference` function on an `ExecutionBuilder`. (Create a `ReferenceBuilder` Class)
+
+The purpose of this phase is to perform any modifications to the structure of the reference, such as status messages and `watchEffect`
+
+## Parameter Injection
+
+This library was built with Parameter Injection as a key feature. Consider the following code:
+```ts
+function getUser(serverUrl, userId) {...}
+function getChat(serverUrl, chatId) {...}
+function getMessage(serverUrl, messageId) {...}
+```
+Ideally, we can create a new signature for these methods that removes the need to provide `serverUrl` on each `getUser` api call. This would be handled in this library via `with` clauses, such as the following:
 
 ```ts
-// Let's create a reference to the execution information.
-const userDownload = useMethod(downloadUser);
-// Let's define userData as the respone from the execution.
-const { response: userData } = userDownload;
-userDownload.execute("123");
+const getUserApi = usePipe(getUser).with(
+  (execution) => (
+    (userId) => (execution(serverUrl, userId))
+  )
+).reference().api().async()
 ```
 
-Now, for the fun part, `userDownload` has some extra information that the UI can use for properly rendering a user. The `userDownload` datastructure is as follows:
+This library breaks parameter injection into 3 categories `api-time`, `composable-time` and `execution-time`
 
-```ts
-type MethodReference<TResponse, TArgs extends unknown[]> = {
-  /**
-   * The time the last execution completed at
-   */
-  lastExecuted: ComputedRef<Date>;
-  /**
-   * A method to trigger the execution
-   */
-  execute: Method<TResponse, TArgs>;
-  /**
-   * Is the method currently executing?
-   */
-  executing: ComputedRef<boolean>;
-  /**
-   * Has this method already completed an execution?
-   */
-  executed: ComputedRef<boolean>;
-  /**
-   * The result from the completed execution. Null if not yet executed
-   */
-  response: ComputedRef<TResponse | null>;
-  /**
-   * Combines the execution and executed variables into an enum.
-   */
-  stage: ComputedRef<MethodStage>;
-};
-```
+- **API Time Parameter Injection**:
+This is done via `with` clauses, which take a value and apply it during the API's definition. Th
+- **Composable Time Parameter Injection**:
+This is done via a `composable` clause, which takes type parameters to determine the new composable and execution signatures.
+- **Execution Time Parameter Injection**: This isn't really parameter injection, rather, it is the requirement that all other parameters MUST be provided during the execution of the referenced method.
 
-### Use Method Status
-
-Our method `downloadUser` returns a response object containing a user. The response object in this example could also contain an error. Use Method Status is designed to help seperate results from errors and status information. It is used as follows:
-
-```ts
-const userDownload = useMethodStatus(downloadUser, useMethod, {
-  /**
-   * NOTE, this parameter is optional for the method to compile.
-   * However, the result cannot be determined without it.
-   * (Without getResult, The result will remain null)
-   */
-  getResult: (response) => response.data,
-});
-const { result: user } = userDownload;
-userDownload.execute("123");
-```
-
-This will expose some additional information that can be consumed by the UI. Below is the data type for `userDownload`
-
-```ts
-export type MethodReferenceStatus<
-  TResult,
-  TReference extends MethodReference<TResponse, TArgs>,
-  TResponse,
-  TArgs extends unknown[],
-  TError extends Error = Error,
-> = TReference & {
-  /**
-   * Contains an Error if an Error has occurred.
-   * Null otherwise.
-   */
-  error: Ref<TError | null>;
-  /**
-   * Contains the result, if successful.
-   * Null otherwise.
-   */
-  result: Ref<TResult | null>;
-  /**
-   * Contains status information about the execution.
-   */
-  status: Ref<ExecutionStatus | null>;
-};
-```
-
-NOTE: This type extends the Reference type, this is in preperation for the pipeline classes, which will be defined later.
+## Reference Transformations
+There are 4 planned reference transformations:
+1. Status Information Transform, to handle pass/fail/error data from method execution.
+2. Watched Transform, to automatically execute the method during composition time
+<br />**NOTE:** This requires all parameters to be provided during `api-time` and `composable-time`. The execute method **MUST** be parameterless.
+3. Cach Transform, to handle support for cached results to prevent repeating server-client communication.
+4. Form Transforms, to handle transforming one or more parameters into references.
