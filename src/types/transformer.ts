@@ -1,0 +1,1 @@
+export type Transformer<TI, TF, TTA extends unknown[]> = (ti: TI, ...args: TTA) => TF; 

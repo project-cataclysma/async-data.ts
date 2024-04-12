@@ -1,4 +1,5 @@
-import { ExecutionReference } from "../../types";
+import { ExecutionReference, Method } from "../../types";
+import { MethodTransformer } from "../../types/methods/method-transformer";
 import { ComposableBuilder } from "../composable-builder";
 import { ReferenceBuilder } from "../reference-builder";
 
@@ -7,23 +8,23 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
      * @param method the method to be referenced
      */
     constructor(
-        public method: (...args: TI) => Promise<TO> | TO,
+        public method: Method<TI, TO>,
     ) {
 
     }
 
-    with<TIN extends unknown[]>(
-        transformation: (execute: (...args: TI) => TO | Promise<TO>) => ((...args: TIN) => TO | Promise<TO>),
+    with<TIN extends unknown[], TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
+        ...args: TTA
     ): ExecutionBuilder<TIN, TO> {
-        return new ExecutionBuilder(transformation(this.method));
+        return new ExecutionBuilder(transformation(this.method, ...args));
     }
 
-    composable<TCN extends unknown[], TEN extends unknown[]>(
-        transformation: (
-            execute: (...args: TI) => TO
-        ) => ((...args: [...cargs: TCN, ...targs: TEN]) => TO),
+    composable<TCN extends unknown[], TEN extends unknown[], TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, [...cargs: TCN, ...targs: TEN], TO, TTA>,
+        ...args: TTA
     ): ComposableBuilder<TCN, TEN, TO> {
-        return new ComposableBuilder(this.with(transformation));
+        return new ComposableBuilder(this.with(transformation, ...args));
     }
 
     composableAll(): ComposableBuilder<TI, [], TO> {

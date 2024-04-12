@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { ExecutionBuilder } from "../../src/pipe/execution-builder";
 import { statusReferenceTransformer } from "../../src/references/status-reference-transformer";
-import { ExecutionReference, StatusReference } from "../../src/types";
+import { ExecutionReference } from "../../src/types";
 import { watchedReferenceTransformer } from "../../src/references/watched-reference-transformer";
 import { usePipe } from "../../src/pipe/use-pipe";
 

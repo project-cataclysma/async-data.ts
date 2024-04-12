@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { usePipe } from '../../../src/pipe/use-pipe'
 import { statusReferenceTransformer } from "../../../src/references/status-reference-transformer";
-import { computed } from "vue";
 import { ExecutionReference } from "../../../src/types";
 
 describe('piped execution', () => {

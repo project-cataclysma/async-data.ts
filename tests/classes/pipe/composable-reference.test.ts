@@ -9,7 +9,7 @@ describe('piped composable', () => {
     }
 
     const pipeline = usePipe(asyncMethod)
-        .composable<[a: number, b: number, c: string], []>(exec => exec)
+        .composable<[a: number, b: number, c: string], [], []>(exec => exec)
         .reference();
 
     it('allows reference wrapping', async () => {
