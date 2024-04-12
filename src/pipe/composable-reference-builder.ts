@@ -1,6 +1,7 @@
 import { ExecutionReference } from "../types";
 import { ApiDeinition } from "../types/api-definition";
-import { ExecutionBuilder } from "./execution-builder";
+import { AsyncMethod } from "../types/methods";
+import { ExecutionBuilder } from "./execution-builders/execution-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
 export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown[], TO, TR extends ExecutionReference<TE, TO>> {
@@ -26,13 +27,13 @@ export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown
         return (...cargs: TC) => reference(...cargs).build();
     }
 
-    async(...cargs: TC): (...args: TE) => Promise<TO> {
-        return (...eargs: TE) => Promise.resolve(this.execution.execute(...cargs, ...eargs))
+    async(...cargs: TC): AsyncMethod<TE, TO> {
+        return (...eargs: TE) => Promise.resolve(this.execution.method(...cargs, ...eargs))
     }
 
     api(): ApiDeinition<TC, TE, TO, TR> {
         return {
-            async: (...args: [...ti: TC, ...te: TE]) => Promise.resolve(this.execution.execute(...args)),
+            async: (...args: [...ti: TC, ...te: TE]) => Promise.resolve(this.execution.method(...args)),
             composable: (...cargs: TC) => this.async(...cargs),
             reference: this.build()
         }

@@ -1,6 +1,6 @@
 import { ExecutionReference } from "../types";
 import { ApiDeinition } from "../types/api-definition";
-import { ExecutionBuilder } from "./execution-builder";
+import { ExecutionBuilder } from "./execution-builders/execution-builder";
 import { computed, ref } from 'vue';
 
 export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
@@ -19,7 +19,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
     }
 
     build(): TR {
-        const method = this.execution.execute;
+        const method = this.execution.method;
         const executing = ref(false);
         const executed = ref(false);
         const output = ref<TO>();
@@ -41,7 +41,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
     }
 
     async(...args: TI): Promise<TO> {
-        return Promise.resolve(this.execution.execute(...args))
+        return Promise.resolve(this.execution.method(...args))
     }
 
     api(): ApiDeinition<[], TI, TO, TR> {

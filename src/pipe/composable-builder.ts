@@ -1,6 +1,6 @@
 import { ExecutionReference } from "../types";
 import { ComposableReferenceBuilder } from "./composable-reference-builder";
-import { ExecutionBuilder } from "./execution-builder";
+import { ExecutionBuilder } from "./execution-builders/execution-builder";
 import { FormComposableBuilder } from "./form-composable-builder";
 
 export class ComposableBuilder<
