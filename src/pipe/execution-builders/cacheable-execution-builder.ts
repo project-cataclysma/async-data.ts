@@ -2,7 +2,7 @@ import { ExecutionBuilder } from "./execution-builder";
 import { CacheMethod, Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 
-export class CachableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
+export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
     /**
      * @param method The method to reference
      * @param cacheMethod The method to use when executing the cache
@@ -25,6 +25,6 @@ export class CachableExecutionBuilder<TI extends unknown[], TO> extends Executio
          */
         const cacheTransform: CacheTransform = (method: Method<TI, TO>) => transformation((...args: TI) => this.cacheMethod(method, ...args), ...args);
         const cacheMethod = (method: Method<TI, TO>, ...args: TIN) => cacheTransform(method)(...args)
-        return new CachableExecutionBuilder(transformation(this.method, ...args), cacheMethod);
+        return new CacheableExecutionBuilder(transformation(this.method, ...args), cacheMethod);
     }
 }
