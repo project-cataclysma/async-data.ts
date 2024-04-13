@@ -1,5 +1,5 @@
 import { ExecutionBuilder } from "./execution-builder";
-import { CacheMethod, Method } from "../../types/methods";
+import { AsyncMethod, CacheMethod, Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 
 export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
@@ -17,13 +17,13 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
     with<TIN extends unknown[], TTA extends unknown[]>(
         transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
         ...args: TTA
-    ): ExecutionBuilder<TIN, TO> {
+    ): CacheableExecutionBuilder<TIN, TO> {
         type CacheTransform = (cacheMethod: Method<TI, TO>) => Method<TIN, TO>;
         /**
          * Step 1, we need to create a function that injects the method seperate from parameters.
          * Step 2, we flatten injection.
          */
-        const cacheTransform: CacheTransform = (method: Method<TI, TO>) => transformation((...args: TI) => this.cacheMethod(method, ...args), ...args);
+        const cacheTransform: CacheTransform = (method: AsyncMethod<TI, TO>) => transformation((...args: TI) => this.cacheMethod(method, ...args), ...args);
         const cacheMethod = (method: Method<TI, TO>, ...args: TIN) => cacheTransform(method)(...args)
         return new CacheableExecutionBuilder(transformation(this.method, ...args), cacheMethod);
     }

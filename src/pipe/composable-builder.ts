@@ -1,4 +1,4 @@
-import { ExecutionReference, Method } from "../types";
+import { ExecutionReference } from "../types";
 import { MethodTransformer } from "../types/methods/method-transformer";
 import { Transformer } from "../types/transformer";
 import { ComposableReferenceBuilder } from "./composable-reference-builder";

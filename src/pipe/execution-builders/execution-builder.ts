@@ -1,4 +1,5 @@
 import { ExecutionReference, Method } from "../../types";
+import { SyncMethod } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { ComposableBuilder } from "../composable-builder";
 import { ReferenceBuilder } from "../reference-builder";
@@ -13,10 +14,26 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
 
     }
 
+    /**
+     * @deprecated this is an experimental snippet of code. Likely to be removed
+     * @param transformation 
+     * @param builder 
+     * @param bargs 
+     * @returns 
+     */
+    withBuilder<TIN extends unknown[], TBA extends unknown[], TB extends ExecutionBuilder<TIN, TO>, TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
+        builder: new (method: Method<TIN, TO>, ...args: TBA) => TB,
+        ...bargs: TBA
+    ): SyncMethod<TTA, TB> {
+        return (...targs: TTA) => new builder(transformation(this.method, ...targs), ...bargs);
+    }
+
     with<TIN extends unknown[], TTA extends unknown[]>(
         transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
         ...args: TTA
     ): ExecutionBuilder<TIN, TO> {
+        // return this.withBuilder(transformation, ExecutionBuilder)(...args);
         return new ExecutionBuilder(transformation(this.method, ...args));
     }
 
