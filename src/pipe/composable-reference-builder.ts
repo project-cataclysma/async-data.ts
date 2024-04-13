@@ -3,7 +3,7 @@ import { ApiDeinition } from "../types/api-definition";
 import { AsyncMethod, SyncMethod } from "../types/methods";
 import { Transformer } from "../types/transformer";
 import { ExecutionBuilder } from "./execution-builders/execution-builder";
-import { ReferenceBuilder } from "./reference-builder";
+import { ReferenceBuilder } from "./reference-builders/reference-builder";
 
 export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown[], TO, TR extends ExecutionReference<TE, TO>> {
     constructor(

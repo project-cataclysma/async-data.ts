@@ -5,8 +5,8 @@ describe('piped execution', () => {
     async function asyncMethod(a: number, b: number, c: string): Promise<string> {
         return Promise.resolve(a > b ? c : 'other');
     }
-    async function cacheAsyncMethod(method: typeof asyncMethod, ...params: Parameters<typeof asyncMethod>): Promise<string> {
-        return Promise.resolve(method(params[1], params[0], params[2]));
+    async function cacheAsyncMethod(...params: Parameters<typeof asyncMethod>): Promise<string> {
+        return Promise.resolve(asyncMethod(params[1], params[0], params[2]));
     }
 
     const pipeline = (new CacheableExecutionBuilder(asyncMethod, cacheAsyncMethod)).with(

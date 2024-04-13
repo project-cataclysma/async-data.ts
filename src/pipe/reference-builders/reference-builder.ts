@@ -1,7 +1,7 @@
-import { ExecutionReference } from "../types";
-import { ApiDeinition } from "../types/api-definition";
-import { Transformer } from "../types/transformer";
-import { ExecutionBuilder } from "./execution-builders/execution-builder";
+import { ExecutionReference } from "../../types";
+import { ApiDeinition } from "../../types/api-definition";
+import { Transformer } from "../../types/transformer";
+import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { computed, ref } from 'vue';
 
 export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
