@@ -3,6 +3,7 @@ import { Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { CacheableReference, ExecutionReference } from "../../types";
 import { CacheableReferenceBuilder } from "../reference-builders/cacheable-reference-builder";
+import { computed } from "vue";
 
 export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
     /**
@@ -11,7 +12,7 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
      */
     constructor(
         public method: Method<TI, TO>,
-        public cacheMethod: Method<TI, TO>,
+        public cacheMethod: Method<TI, TO | undefined>,
     ) {
         super(method);
     }
@@ -24,12 +25,25 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
     }
 
     reference(): CacheableReferenceBuilder<TI, TO, CacheableReference<TI, TO, ExecutionReference<TI, TO>>> {
-        // TODO, we need cacheMethod to have execute as a parameter
-        return new CacheableReferenceBuilder(this, (r) => ({
-            ...r,
-            forceExecute: r.execute,
-            execute: r.execute,
-        }));
+        return new CacheableReferenceBuilder(this, (r) => {
+            let outputCached = undefined;
+            return {
+                ...r,
+                execute: async (...args: TI) => {
+                    const cachedValue = await Promise.resolve(this.cacheMethod(...args))
+                    if (cachedValue) {
+                        outputCached = cachedValue;
+                    }
+                    return (cachedValue) ?? await r.execute(...args)
+                },
+                forceExecute: (...args: TI) => r.execute(...args).then(r => {
+                    outputCached = r;
+                    return r;
+                }),
+                output: computed(() => outputCached ?? r.output.value),
+                executed: computed(() => outputCached ?? r.executed.value),
+            }
+        });
     }
     
     build() {
