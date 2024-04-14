@@ -17,9 +17,9 @@ describe('piped execution', () => {
         const reference = pipeline.build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
-        await reference.execute(2, '3');
+        await reference.forceExecute(2, '3');
         expect(reference.executing.value).toBeFalsy();
-        expect(reference.output.value).toBe('other')
+        expect(reference.output.value).toBe('3')
         expect(reference.executed.value).toBeTruthy();
     })
 
@@ -29,9 +29,9 @@ describe('piped execution', () => {
         }).build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
-        await reference.execute('19');
+        await reference.forceExecute('19');
         expect(reference.executing.value).toBeFalsy();
-        expect(reference.output.value).toBe('other')
+        expect(reference.output.value).toBe('19')
         expect(reference.executed.value).toBeTruthy();
     })
 })
