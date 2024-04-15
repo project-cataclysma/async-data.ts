@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import { ExecutionBuilder } from "../../../src/pipe/execution-builder";
 import { usePipe } from "../../../src/pipe/use-pipe";
 
 describe('piped composable', () => {
@@ -7,7 +6,7 @@ describe('piped composable', () => {
         return Promise.resolve(a > b ? c : 'other');
     }
 
-    const pipeline = usePipe(asyncMethod).composable<[a: number, b: number, c: string], []>(exec => exec);
+    const pipeline = usePipe(asyncMethod).composable<[a: number, b: number, c: string], [], []>(exec => exec);
 
     it('allows reference wrapping', async () => {
         const composable = pipeline.build();

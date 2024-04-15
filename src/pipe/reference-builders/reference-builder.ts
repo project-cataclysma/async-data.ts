@@ -1,6 +1,7 @@
-import { ExecutionReference } from "../types";
-import { ApiDeinition } from "../types/api-definition";
-import { ExecutionBuilder } from "./execution-builder";
+import { ExecutionReference } from "../../types";
+import { ApiDeinition } from "../../types/api-definition";
+import { Transformer } from "../../types/transformer";
+import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { computed, ref } from 'vue';
 
 export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
@@ -11,19 +12,19 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
 
     }
 
-    then<TTA extends unknown[], TRN extends TR> (
-        transform: (executionReference: TR, ...args: TTA) => TRN,
+    then<TRN extends TR, TTA extends unknown[]>(
+        transform: Transformer<TR, TRN, TTA>,
         ...args: TTA
     ): ReferenceBuilder<TI, TO, TRN> {
         return new ReferenceBuilder(this.execution, (r) => transform(this.transform(r), ...args));
     }
 
     build(): TR {
-        const method = this.execution.execute;
+        const method = this.execution.method;
         const executing = ref(false);
         const executed = ref(false);
         const output = ref<TO>();
-        async function execute (...args: TI): Promise<TO> {
+        async function execute(...args: TI): Promise<TO> {
             executing.value = true;
             return Promise.resolve(method(...args)).then(_output => {
                 executed.value = true;
@@ -41,7 +42,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
     }
 
     async(...args: TI): Promise<TO> {
-        return Promise.resolve(this.execution.execute(...args))
+        return Promise.resolve(this.execution.method(...args))
     }
 
     api(): ApiDeinition<[], TI, TO, TR> {
