@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CacheableExecutionBuilder } from '../../../src'
+import { usePipeAndCache } from '../../../src'
 
 describe('piped execution', () => {
     async function asyncMethod(a: number, b: number, c: string): Promise<string> {
@@ -10,7 +10,7 @@ describe('piped execution', () => {
         return params[1] < 5 ? `cached: ${params[2]}` : undefined;
     }
 
-    const pipeline = (new CacheableExecutionBuilder(asyncMethod, cacheAsyncMethod)).with(
+    const pipeline = usePipeAndCache(asyncMethod, cacheAsyncMethod).with(
         exec => (b: number, c: string) => exec(10, b, c)
     );
 
