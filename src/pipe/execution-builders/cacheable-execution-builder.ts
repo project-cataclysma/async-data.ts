@@ -2,8 +2,8 @@ import { ExecutionBuilder } from "./execution-builder";
 import { Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { CacheableReference, ExecutionReference } from "../../types";
-import { CacheableReferenceBuilder } from "../reference-builders/cacheable-reference-builder";
 import { computed, ref } from "vue";
+import { ReferenceBuilder } from "../reference-builders/reference-builder";
 
 export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
     /**
@@ -24,8 +24,8 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
         return new CacheableExecutionBuilder<TIN, TO>(transformation(this.method, ...args), transformation(this.cacheMethod, ...args));
     }
 
-    reference(): CacheableReferenceBuilder<TI, TO, CacheableReference<TI, TO, ExecutionReference<TI, TO>>> {
-        return new CacheableReferenceBuilder(this, (r) => {
+    reference(): ReferenceBuilder<TI, TO, CacheableReference<TI, TO, ExecutionReference<TI, TO>>> {
+        return new ReferenceBuilder(this, (r) => {
             const outputCached = ref<TO | undefined>();
             const cacheMethod = this.cacheMethod;
             async function execute(...args: TI): Promise<TO> {
@@ -52,7 +52,7 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
                 forceExecute,
                 output,
                 executed,
-            }
+            } satisfies CacheableReference<TI, TO, ExecutionReference<TI, TO>>
         });
     }
     
