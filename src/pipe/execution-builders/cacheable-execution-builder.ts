@@ -3,7 +3,7 @@ import { Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { CacheableReference, ExecutionReference } from "../../types";
 import { CacheableReferenceBuilder } from "../reference-builders/cacheable-reference-builder";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
     /**
@@ -26,22 +26,32 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
 
     reference(): CacheableReferenceBuilder<TI, TO, CacheableReference<TI, TO, ExecutionReference<TI, TO>>> {
         return new CacheableReferenceBuilder(this, (r) => {
-            let outputCached = undefined;
+            const outputCached = ref<TO | undefined>();
+            const cacheMethod = this.cacheMethod;
+            async function execute(...args: TI): Promise<TO> {
+                const cachedValue = await Promise.resolve(cacheMethod(...args));
+                if (cachedValue !== undefined) {
+                    outputCached.value = cachedValue;
+                    return cachedValue;
+                }
+                const resultValue = await Promise.resolve(r.execute(...args));
+                outputCached.value = resultValue;
+                return resultValue;
+            }
+            async function forceExecute(...args: TI) {
+                const resultValue = await Promise.resolve(r.execute(...args));
+                outputCached.value = undefined;
+                return resultValue;
+            }
+            const output = computed(() => outputCached.value ?? r.output.value);
+            const executed = computed(() => !!(outputCached.value ?? r.executed.value));
+            
             return {
                 ...r,
-                execute: async (...args: TI) => {
-                    const cachedValue = await Promise.resolve(this.cacheMethod(...args))
-                    if (cachedValue) {
-                        outputCached = cachedValue;
-                    }
-                    return (cachedValue) ?? await r.execute(...args)
-                },
-                forceExecute: (...args: TI) => r.execute(...args).then(r => {
-                    outputCached = r;
-                    return r;
-                }),
-                output: computed(() => outputCached ?? r.output.value),
-                executed: computed(() => outputCached ?? r.executed.value),
+                execute,
+                forceExecute,
+                output,
+                executed,
             }
         });
     }
