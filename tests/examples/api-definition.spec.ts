@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { statusReferenceTransformer } from "../../src/references/status-reference-transformer";
-import { ExecutionReference } from "../../src/types";
 import { watchedReferenceTransformer } from "../../src/references/watched-reference-transformer";
 import { usePipe } from "../../src/pipe/use-pipe";
 
@@ -23,7 +22,10 @@ describe("api definition example", () => {
     .composableAll()
     .reference()
     .then(
-      (r) => statusReferenceTransformer<[], DoThingOut, ExecutionReference<[], DoThingOut>, string>(r, (output) => output?.data),
+      statusReferenceTransformer,
+      {
+        getResult: (output: DoThingOut) => output?.data
+      },
     )
     .then(watchedReferenceTransformer)
     .api();
