@@ -1,0 +1,1 @@
+export type AsyncMethod<TI extends unknown[], TO> = (...args: TI) => Promise<TO>
