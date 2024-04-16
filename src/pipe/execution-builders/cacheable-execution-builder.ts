@@ -2,8 +2,8 @@ import { ExecutionBuilder } from "./execution-builder";
 import { Method } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { CacheableReference, ExecutionReference } from "../../types";
-import { computed, ref } from "vue";
 import { ReferenceBuilder } from "../reference-builders/reference-builder";
+import { cacheReferenceTransformer } from "../../references/cache-reference-transformer";
 
 export class CacheableExecutionBuilder<TI extends unknown[], TO> extends ExecutionBuilder<TI, TO> {
     /**
@@ -13,47 +13,25 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
     constructor(
         public method: Method<TI, TO>,
         public cacheMethod: Method<TI, TO | undefined>,
+        protected transform: <TR extends ExecutionReference<TI, TO>>(
+            executionReference: TR,
+        ) => CacheableReference<TI, TO, TR> = (r) => cacheReferenceTransformer(r, this.cacheMethod),
     ) {
-        super(method);
+        super(method, transform);
     }
 
     with<TIN extends unknown[], TTA extends unknown[]>(
         transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
         ...args: TTA
     ): CacheableExecutionBuilder<TIN, TO> {
-        return new CacheableExecutionBuilder<TIN, TO>(transformation(this.method, ...args), transformation(this.cacheMethod, ...args));
+        return new CacheableExecutionBuilder<TIN, TO>(
+            transformation(this.method, ...args),
+            transformation(this.cacheMethod, ...args)
+        );
     }
 
     reference(): ReferenceBuilder<TI, TO, CacheableReference<TI, TO, ExecutionReference<TI, TO>>> {
-        return new ReferenceBuilder(this, (r) => {
-            const outputCached = ref<TO | undefined>();
-            const cacheMethod = this.cacheMethod;
-            async function execute(...args: TI): Promise<TO> {
-                const cachedValue = await Promise.resolve(cacheMethod(...args));
-                if (cachedValue !== undefined) {
-                    outputCached.value = cachedValue;
-                    return cachedValue;
-                }
-                const resultValue = await Promise.resolve(r.execute(...args));
-                outputCached.value = resultValue;
-                return resultValue;
-            }
-            async function forceExecute(...args: TI) {
-                const resultValue = await Promise.resolve(r.execute(...args));
-                outputCached.value = undefined;
-                return resultValue;
-            }
-            const output = computed(() => outputCached.value ?? r.output.value);
-            const executed = computed(() => !!(outputCached.value ?? r.executed.value));
-            
-            return {
-                ...r,
-                execute,
-                forceExecute,
-                output,
-                executed,
-            } satisfies CacheableReference<TI, TO, ExecutionReference<TI, TO>>
-        });
+        return new ReferenceBuilder(this, this.transform)
     }
     
     build() {

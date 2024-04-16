@@ -10,6 +10,7 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
      */
     constructor(
         public method: Method<TI, TO>,
+        protected transform: <TR extends ExecutionReference<TI, TO>>(executionReference: TR) => TR = r => r,
     ) {
 
     }
@@ -49,7 +50,7 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
     }
 
     reference(): ReferenceBuilder<TI, TO, ExecutionReference<TI, TO>> {
-        return new ReferenceBuilder(this, (r) => r);
+        return new ReferenceBuilder(this, this.transform);
     }
 
     build() {

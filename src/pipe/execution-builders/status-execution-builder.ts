@@ -4,7 +4,7 @@ import { MethodTransformer } from "../../types/methods/method-transformer";
 import { StatusReference, ExecutionReference } from "../../types";
 import { ReferenceBuilder } from "../reference-builders/reference-builder";
 import { StatusTransformerConfig } from "../../types/configurations/status-transformer-config";
-import { computed, ref, watch } from "vue";
+import { statusReferenceTransformer } from "../../references";
 
 export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends ExecutionBuilder<TI, TO> {
     /**
@@ -14,8 +14,9 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends Execut
     constructor(
         public method: Method<TI, TO>,
         public config: StatusTransformerConfig<TO, TF>,
+        protected transform: <TR extends ExecutionReference<TI, TO>>(executionReference: TR) => StatusReference<TI, TO, TR, TF> = (r) => statusReferenceTransformer(r, this.config),
     ) {
-        super(method);
+        super(method , transform);
     }
 
     with<TIN extends unknown[], TTA extends unknown[]>(
@@ -26,16 +27,7 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends Execut
     }
 
     reference(): ReferenceBuilder<TI, TO, StatusReference<TI, TO, ExecutionReference<TI, TO>, TF>> {
-        return new ReferenceBuilder(this, (r) => {
-            const result = ref<TF | undefined>();
-            watch(r.output, (output) => {
-                result.value = this.config.getResult ? this.config.getResult(output) : undefined;
-            })
-            return {
-                ...r,
-                result: computed(() => result.value),
-            } satisfies StatusReference<TI, TO, ExecutionReference<TI, TO>, TF>
-        });
+        return new ReferenceBuilder(this, this.transform);
     }
     
     build() {
