@@ -22,9 +22,9 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
      * @param bargs 
      * @returns 
      */
-    withBuilder<TIN extends unknown[], TBA extends unknown[], TB extends ExecutionBuilder<TIN, TO>, TTA extends unknown[]>(
-        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
-        builder: new (method: Method<TIN, TO>, ...args: TBA) => TB,
+    withBuilder<TIN extends unknown[], TON, TBA extends unknown[], TB extends ExecutionBuilder<TIN, TON>, TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TON, TTA>,
+        builder: new (method: Method<TIN, TON>, ...args: TBA) => TB,
         ...bargs: TBA
     ): SyncMethod<TTA, TB> {
         return (...targs: TTA) => new builder(transformation(this.method, ...targs), ...bargs);
@@ -34,8 +34,8 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
         transformation: MethodTransformer<TI, TO, TIN, TON, TTA>,
         ...args: TTA
     ): ExecutionBuilder<TIN, TON> {
-        // return this.withBuilder(transformation, ExecutionBuilder)(...args);
-        return new ExecutionBuilder(transformation(this.method, ...args));
+        return this.withBuilder(transformation, ExecutionBuilder)(...args);
+        // return new ExecutionBuilder(transformation(this.method, ...args));
     }
 
     composable<TCN extends unknown[], TEN extends unknown[], TTA extends unknown[]>(
