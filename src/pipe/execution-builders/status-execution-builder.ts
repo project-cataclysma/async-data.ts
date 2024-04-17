@@ -19,11 +19,14 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends Execut
         super(method , transform);
     }
 
-    with<TIN extends unknown[], TTA extends unknown[]>(
-        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
+    with<TIN extends unknown[], TON, TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TON, TTA>,
         ...args: TTA
-    ): StatusExecutionBuilder<TIN, TO, TF> {
-        return new StatusExecutionBuilder<TIN, TO, TF>(transformation(this.method, ...args), this.config);
+    ): StatusExecutionBuilder<TIN, TON, TF> {
+        const newConfig: StatusTransformerConfig<TON, TF> = {
+
+        }
+        return new StatusExecutionBuilder<TIN, TON, TF>(transformation(this.method, ...args), newConfig);
     }
 
     reference(): ReferenceBuilder<TI, TO, StatusReference<TI, TO, ExecutionReference<TI, TO>, TF>> {

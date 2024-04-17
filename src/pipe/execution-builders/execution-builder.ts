@@ -30,10 +30,10 @@ export class ExecutionBuilder<TI extends unknown[], TO> {
         return (...targs: TTA) => new builder(transformation(this.method, ...targs), ...bargs);
     }
 
-    with<TIN extends unknown[], TTA extends unknown[]>(
-        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
+    with<TIN extends unknown[], TON, TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TON, TTA>,
         ...args: TTA
-    ): ExecutionBuilder<TIN, TO> {
+    ): ExecutionBuilder<TIN, TON> {
         // return this.withBuilder(transformation, ExecutionBuilder)(...args);
         return new ExecutionBuilder(transformation(this.method, ...args));
     }

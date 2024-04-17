@@ -20,11 +20,11 @@ export class CacheableExecutionBuilder<TI extends unknown[], TO> extends Executi
         super(method, transform);
     }
 
-    with<TIN extends unknown[], TTA extends unknown[]>(
-        transformation: MethodTransformer<TI, TO, TIN, TO, TTA>,
+    with<TIN extends unknown[], TON, TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, TIN, TON, TTA>,
         ...args: TTA
-    ): CacheableExecutionBuilder<TIN, TO> {
-        return new CacheableExecutionBuilder<TIN, TO>(
+    ): CacheableExecutionBuilder<TIN, TON> {
+        return new CacheableExecutionBuilder<TIN, TON>(
             transformation(this.method, ...args),
             transformation(this.cacheMethod, ...args)
         );
