@@ -20,7 +20,7 @@ describe('piped composable', () => {
         await reference.execute();
         expect(reference.executing.value).toBeFalsy();
         expect(reference.output.value).toBe('3')
-        // expect(reference.executed.value).toBeTruthy();
+        expect(reference.executed.value).toBeTruthy();
     })
 
     it('allows parameter injection', async () => {
@@ -34,6 +34,6 @@ describe('piped composable', () => {
         expect(reference.executing.value).toBeFalsy();
         expect(reference.output.value).toBe('apple')
         expect(reference.result.value).toBe('APPLE')
-        // expect(reference.executed.value).toBeTruthy();
+        expect(reference.executed.value).toBeTruthy();
     })
 })
