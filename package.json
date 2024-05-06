@@ -38,5 +38,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/project-cataclysma/execution-reference.ts.git"
-  }
+  },
+  "packageManager": "yarn@4.2.1"
 }
