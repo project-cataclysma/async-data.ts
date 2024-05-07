@@ -1,6 +1,6 @@
 import { Ref, toValue } from "vue";
 import { ExecutionReference } from "../../types";
-import { ComposableReferenceBuilder } from "./composable-reference-builder";
+import { ComposableReferenceBuilder } from "../reference-builders/composable-reference-builder";
 import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { FormReference } from "../../types/references/form-reference";
 

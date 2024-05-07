@@ -1,6 +1,7 @@
 import { ExecutionReference, Method } from "../../types";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { AppendedExecutionReference } from "../../types/references/appended-execution-reference";
+import { AppendedComposableBuilder } from "../composable-builders/appended-composable-builder";
 import { ComposableBuilder } from "../composable-builders/composable-builder";
 import { AppendedReferenceBuilder } from "../reference-builders/appended-reference-builder";
 import { ExecutionBuilder } from "./execution-builder";
@@ -40,8 +41,16 @@ export class AppendedExecutionBuilder<TI extends unknown[], TO, TEP> extends Exe
         return new ComposableBuilder(this.with(transformation, ...args));
     }
 
+    composable2<TCN extends unknown[], TEN extends unknown[], TTA extends unknown[]>(
+        transformation: MethodTransformer<TI, TO, [...cargs: TCN, ...targs: TEN], TO, TTA>,
+        extendedPropsTransformation: MethodTransformer<TI, TEP, [...cargs: TCN, ...targs: TEN], TEP, TTA>,
+        ...args: TTA
+    ): ComposableBuilder<TCN, TEN, TO> {
+        return new AppendedComposableBuilder(this.with(transformation, ...args), extendedPropsTransformation(this.buildExtendedProperties, ...args));
+    }
+
     composableAll(): ComposableBuilder<TI, [], TO> {
-        return new ComposableBuilder(this.with(exec => exec));
+        return new AppendedComposableBuilder(this, this.buildExtendedProperties);
     }
 
     reference(): AppendedReferenceBuilder<TI, TO, TEP, AppendedExecutionReference<TI, TO, TEP>> {

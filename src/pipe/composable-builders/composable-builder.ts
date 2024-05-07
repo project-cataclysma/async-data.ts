@@ -1,7 +1,7 @@
 import { ExecutionReference } from "../../types";
 import { MethodTransformer } from "../../types/methods/method-transformer";
 import { Transformer } from "../../types/transformer";
-import { ComposableReferenceBuilder } from "./composable-reference-builder";
+import { ComposableReferenceBuilder } from "../reference-builders/composable-reference-builder";
 import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { FormComposableBuilder } from "./form-composable-builder";
 
