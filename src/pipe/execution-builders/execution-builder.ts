@@ -1,7 +1,7 @@
 import { ExecutionReference, Method } from "../../types";
 import { SyncMethod } from "../../types/methods";
 import { MethodTransformer } from "../../types/methods/method-transformer";
-import { ComposableBuilder } from "../composable-builder";
+import { ComposableBuilder } from "../composable-builders/composable-builder";
 import { ReferenceBuilder } from "../reference-builders/reference-builder";
 
 export class ExecutionBuilder<TI extends unknown[], TO> {

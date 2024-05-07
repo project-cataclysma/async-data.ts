@@ -16,7 +16,7 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends Execut
         public config: StatusTransformerConfig<TO, TF>,
         protected transform: <TR extends ExecutionReference<TI, TO>>(executionReference: TR) => StatusReference<TI, TO, TR, TF> = (r) => statusReferenceTransformer(r, this.config),
     ) {
-        super(method , transform);
+        super(method, transform);
     }
 
     with<TIN extends unknown[], TON, TTA extends unknown[]>(
@@ -32,7 +32,7 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TF> extends Execut
     reference(): ReferenceBuilder<TI, TO, StatusReference<TI, TO, ExecutionReference<TI, TO>, TF>> {
         return new ReferenceBuilder(this, this.transform);
     }
-    
+
     build() {
         return this.reference().build();
     }

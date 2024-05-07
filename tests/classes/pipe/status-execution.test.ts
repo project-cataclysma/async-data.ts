@@ -11,8 +11,7 @@ describe('piped execution', () => {
             return ouput.toLowerCase() !== 'other';
         },
     }))
-    // Using With after status is broken at the moment
-    //     .with(
+    // .with(
     //     exec => (b: number, c: string) => exec(10, b, c)
     // );
 
@@ -26,7 +25,7 @@ describe('piped execution', () => {
         expect(reference.result.value).toBeTruthy();
     })
 
-    it.skip('allows parameter injection', async () => {
+    it('allows parameter injection', async () => {
         const reference = pipeline.with((exec) => {
             return (c: string) => exec(10, 2, c)
         }).build();
