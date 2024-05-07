@@ -20,8 +20,8 @@ describe('piped execution', () => {
     })
 
     it('allows reference encapsulation', async () => {
-        const reference = pipeline.with(exec => () => exec(10, 4, 'apple')).reference().then(watchedReferenceTransformer).build();
-        
+        const reference = pipeline.with(exec => () => exec(10, 4, 'apple'), exec => () => exec(10, 4, 'apple')).reference().then(watchedReferenceTransformer).build();
+
         // TODO, let's see if there is a better way we can watch for variable changes
         // Perhaps we create a watch around executed/stage, then compare. Else Fail
         // Code improved from an example found by Chat GPT. Otherwise I'd give credit to it's owner.
@@ -29,8 +29,8 @@ describe('piped execution', () => {
         // https://stackoverflow.com/questions/76915177/wait-for-the-nexttick-before-asserting-with-vitest
         const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
         for (let i = 0; i < 3; i++) {
-        if (reference.executed.value) break;
-        await delay(100);
+            if (reference.executed.value) break;
+            await delay(100);
         }
         expect(reference.output.value).toBe('apple')
     })

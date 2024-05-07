@@ -4,9 +4,9 @@ import { Transformer } from "../../types/transformer";
 import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { computed, ref } from 'vue';
 
-export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>> {
+export class ReferenceBuilder<TI extends unknown[], TO, TE, TR extends ExecutionReference<TI, TO>> {
     constructor(
-        protected execution: ExecutionBuilder<TI, TO>,
+        protected execution: ExecutionBuilder<TI, TO, TE>,
         protected transform: (executionReference: ExecutionReference<TI, TO>) => TR,
     ) {
 
@@ -15,7 +15,7 @@ export class ReferenceBuilder<TI extends unknown[], TO, TR extends ExecutionRefe
     then<TRN extends TR, TTA extends unknown[]>(
         transform: Transformer<TR, TRN, TTA>,
         ...args: TTA
-    ): ReferenceBuilder<TI, TO, TRN> {
+    ): ReferenceBuilder<TI, TO, TE, TRN> {
         return new ReferenceBuilder(this.execution, (r) => transform(this.transform(r), ...args));
     }
 
