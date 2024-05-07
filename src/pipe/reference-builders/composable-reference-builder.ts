@@ -5,10 +5,10 @@ import { Transformer } from "../../types/transformer";
 import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { ReferenceBuilder } from "./reference-builder";
 
-export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown[], TO, TEP, TR extends ExecutionReference<TE, TO>> {
+export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown[], TO, TEP, TR extends ExecutionReference<TE, TO, TEP>> {
     constructor(
         protected execution: ExecutionBuilder<[...tc: TC, ...te: TE], TO, TEP>,
-        protected transform: (executionReference: ExecutionReference<TE, TO>) => TR,
+        protected transform: (executionReference: ExecutionReference<TE, TO, TEP>) => TR,
     ) {
     }
 
@@ -19,7 +19,7 @@ export class ComposableReferenceBuilder<TC extends unknown[], TE extends unknown
         return new ComposableReferenceBuilder(this.execution, (r) => transform(this.transform(r), ...args));
     }
 
-    reference(): SyncMethod<TC, ReferenceBuilder<TE, TO, TE, TR>> {
+    reference(): SyncMethod<TC, ReferenceBuilder<TE, TO, TEP, TR>> {
         return (...cargs: TC) => this.execution.with(exec => (...eargs: TE) => exec(...cargs, ...eargs), exec => (...eargs: TE) => exec(...cargs, ...eargs)).reference().then(this.transform);
     }
 

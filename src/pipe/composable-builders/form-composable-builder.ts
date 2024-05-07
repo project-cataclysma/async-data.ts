@@ -16,7 +16,7 @@ export class FormComposableBuilder<
     ) {
     }
 
-    reference(tf: Ref<TF>): ComposableReferenceBuilder<TC, TE, TO, TEP, FormReference<TE, TO, ExecutionReference<TE, TO, TEP>, TF>> {
+    reference(tf: Ref<TF>): ComposableReferenceBuilder<TC, TE, TO, TEP, FormReference<TE, TO, TEP, ExecutionReference<TE, TO, TEP>, TF>> {
         return new ComposableReferenceBuilder(
             this.execution.with(
                 exec => (...args: [...tc: TC, ...te: TE]) => exec(toValue(tf), ...args),

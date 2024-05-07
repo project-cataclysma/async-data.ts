@@ -5,7 +5,7 @@ import { StatusTransformerConfig } from "../types/configurations/status-transfor
 export function statusReferenceTransformer<TI extends unknown[], TO, TE, TR extends ExecutionReference<TI, TO, TE>, TF>(
     executionReference: TR,
     config: StatusTransformerConfig<TO, TF>,
-): StatusReference<TI, TO, TR, TF> {
+): StatusReference<TI, TO, TE, TR, TF> {
     return {
         ...executionReference,
         result: computed(() => config.getResult ? config.getResult(executionReference.output.value) : undefined),

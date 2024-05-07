@@ -15,7 +15,7 @@ export class StatusExecutionBuilder<TI extends unknown[], TO, TE, TF> extends Ex
         public method: Method<TI, TO>,
         public extensionBuilder: ExtensionBuilder<TI, TE>,
         public config: StatusTransformerConfig<TO, TF>,
-        protected transform: <TR extends ExecutionReference<TI, TO, TE>>(executionReference: TR) => StatusReference<TI, TO, TR, TF> = (r) => statusReferenceTransformer(r, this.config),
+        protected transform: <TR extends ExecutionReference<TI, TO, TE>>(executionReference: TR) => StatusReference<TI, TO, TE, TR, TF> = (r) => statusReferenceTransformer(r, this.config),
     ) {
         super(method, extensionBuilder, transform);
     }
