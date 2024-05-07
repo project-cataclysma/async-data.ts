@@ -1,10 +1,10 @@
 import { computed, ref } from "vue";
 import { CacheableReference, ExecutionReference, Method } from "../types";
 
-export function cacheReferenceTransformer<TI extends unknown[], TO, TR extends ExecutionReference<TI, TO>>(
+export function cacheReferenceTransformer<TI extends unknown[], TO, TE, TR extends ExecutionReference<TI, TO, TE>>(
     executionReference: TR,
     cacheMethod: Method<TI, TO | undefined>
-): CacheableReference<TI, TO, TR> {
+): CacheableReference<TI, TO, TE, TR> {
     const outputCached = ref<TO | undefined>();
     async function execute(...args: TI): Promise<TO> {
         const cachedValue = await Promise.resolve(cacheMethod(...args));
@@ -23,7 +23,7 @@ export function cacheReferenceTransformer<TI extends unknown[], TO, TR extends E
     }
     const output = computed(() => outputCached.value ?? executionReference.output.value);
     const executed = computed(() => !!(outputCached.value ?? executionReference.executed.value));
-        
+
     return {
         ...executionReference,
         execute,

@@ -39,7 +39,7 @@ export class ComposableBuilder<
         return new FormComposableBuilder(this.execution)
     }
 
-    reference(): ComposableReferenceBuilder<TC, TE, TO, TEP, ExecutionReference<TE, TO>> {
+    reference(): ComposableReferenceBuilder<TC, TE, TO, TEP, ExecutionReference<TE, TO, TEP>> {
         return new ComposableReferenceBuilder(this.execution, r => r);
     }
 

@@ -8,7 +8,7 @@ describe("api definition example", () => {
     public constructor(
       public message?: string,
       public id: number = 0,
-    ) {}
+    ) { }
   }
   async function updateModel<T extends Post>(
     ctor: new (message?: string, id?: number) => T,
@@ -17,7 +17,10 @@ describe("api definition example", () => {
     const model = new ctor(data.message, ++id);
     return Promise.resolve(model);
   }
-  const doThingPipeline = usePipe(updateModel).composableAll().with(exec => (data: Post) => exec(Post, data)).form();
+  const doThingPipeline = usePipe(updateModel).composableAll().with(
+    exec => (data: Post) => exec(Post, data),
+    exec => (data: Post) => exec(Post, data),
+  ).form();
   const api = {
     doThing: doThingPipeline.reference(ref(new Post())).build(),
   };

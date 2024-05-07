@@ -4,10 +4,10 @@ import { Transformer } from "../../types/transformer";
 import { ExecutionBuilder } from "../execution-builders/execution-builder";
 import { computed, ref } from 'vue';
 
-export class ReferenceBuilder<TI extends unknown[], TO, TE, TR extends ExecutionReference<TI, TO>> {
+export class ReferenceBuilder<TI extends unknown[], TO, TE, TR extends ExecutionReference<TI, TO, TE>> {
     constructor(
         protected execution: ExecutionBuilder<TI, TO, TE>,
-        protected transform: (executionReference: ExecutionReference<TI, TO>) => TR,
+        protected transform: (executionReference: ExecutionReference<TI, TO, TE>) => TR,
     ) {
 
     }
@@ -21,23 +21,28 @@ export class ReferenceBuilder<TI extends unknown[], TO, TE, TR extends Execution
 
     build(): TR {
         const method = this.execution.method;
+        const extension = this.execution.extensionBuilder.extension;
         const executing = ref(false);
         const executed = ref(false);
         const output = ref<TO>();
+        const extensionProperties = extension.builder();
         async function execute(...args: TI): Promise<TO> {
             executing.value = true;
-            return Promise.resolve(method(...args)).then(_output => {
+            const _output = Promise.resolve(method(...args)).then(_output => {
                 executed.value = true;
                 executing.value = false;
                 output.value = _output;
                 return _output;
             });
+            extension.updater(extensionProperties, ...args);
+            return await _output;
         }
         return this.transform({
             executing: computed(() => executing.value),
             executed: computed(() => executed.value),
             execute,
             output: computed(() => output.value),
+            ...extensionProperties
         })
     }
 

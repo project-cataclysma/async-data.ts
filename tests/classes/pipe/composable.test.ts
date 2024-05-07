@@ -6,7 +6,7 @@ describe('piped composable', () => {
         return Promise.resolve(a > b ? c : 'other');
     }
 
-    const pipeline = usePipe(asyncMethod).composable<[a: number, b: number, c: string], [], []>(exec => exec);
+    const pipeline = usePipe(asyncMethod).composable<[a: number, b: number, c: string], [], []>(exec => exec, exec => exec);
 
     it('allows reference wrapping', async () => {
         const composable = pipeline.build();
@@ -20,9 +20,10 @@ describe('piped composable', () => {
     })
 
     it('allows parameter injection', async () => {
-        const composable = pipeline.with((exec) => {
-            return (c: string) => exec(10, 4, c)
-        }).build();
+        const composable = pipeline.with(
+            (exec) => (c: string) => exec(10, 4, c),
+            (exec) => (c: string) => exec(10, 4, c),
+        ).build();
         const reference = composable();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();

@@ -12,7 +12,7 @@ export class ExecutionBuilder<TI extends unknown[], TO, TE = object> {
     constructor(
         public method: Method<TI, TO>,
         public extensionBuilder: ExtensionBuilder<TI, TE>,
-        protected transform: <TR extends ExecutionReference<TI, TO>>(executionReference: TR) => TR = r => r,
+        protected transform: <TR extends ExecutionReference<TI, TO, TE>>(executionReference: TR) => TR = r => r,
     ) {
 
     }
@@ -54,7 +54,7 @@ export class ExecutionBuilder<TI extends unknown[], TO, TE = object> {
         return new ComposableBuilder(this.with(exec => exec, exec => exec));
     }
 
-    reference(): ReferenceBuilder<TI, TO, TE, ExecutionReference<TI, TO>> {
+    reference(): ReferenceBuilder<TI, TO, TE, ExecutionReference<TI, TO, TE>> {
         return new ReferenceBuilder(this, this.transform);
     }
 

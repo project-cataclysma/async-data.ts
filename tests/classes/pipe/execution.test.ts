@@ -19,9 +19,10 @@ describe('piped execution', () => {
     })
 
     it('allows parameter injection', async () => {
-        const reference = pipeline.with((exec) => {
-            return (c: string) => exec(10, 4, c)
-        }).build();
+        const reference = pipeline.with(
+            (exec) => (c: string) => exec(10, 4, c),
+            (exec) => (c: string) => exec(10, 4, c),
+        ).build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
         await reference.execute('19');

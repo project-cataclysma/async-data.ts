@@ -6,12 +6,13 @@ describe('piped execution', () => {
         return Promise.resolve(a > b ? c : 'other');
     }
     /** param 1 at 0..4 results in using the 'cache', 5..param[0] results without using cache, else returns other */
-    async function cacheAsyncMethod(...params: Parameters<typeof asyncMethod>): Promise<string|undefined> {
+    async function cacheAsyncMethod(...params: Parameters<typeof asyncMethod>): Promise<string | undefined> {
         return params[1] < 5 ? `cached: ${params[2]}` : undefined;
     }
 
     const pipeline = usePipeAndCache(asyncMethod, cacheAsyncMethod).with(
-        exec => (b: number, c: string) => exec(10, b, c)
+        exec => (b: number, c: string) => exec(10, b, c),
+        exec => (b: number, c: string) => exec(10, b, c),
     );
 
     it('allows reference wrapping', async () => {
@@ -27,9 +28,10 @@ describe('piped execution', () => {
     })
 
     it('allows parameter injection', async () => {
-        const reference = pipeline.with((exec) => {
-            return (c: string) => exec(2, c)
-        }).build();
+        const reference = pipeline.with(
+            (exec) => (c: string) => exec(2, c),
+            (exec) => (c: string) => exec(2, c),
+        ).build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
         await reference.execute('19');
@@ -51,9 +53,10 @@ describe('piped execution', () => {
     })
 
     it('allows parameter injection and relies on force execution', async () => {
-        const reference = pipeline.with((exec) => {
-            return (c: string) => exec(7, c)
-        }).build();
+        const reference = pipeline.with(
+            (exec) => (c: string) => exec(7, c),
+            (exec) => (c: string) => exec(7, c),
+        ).build();
         expect(reference.executed.value).toBeFalsy();
         expect(reference.executing.value).toBeFalsy();
         await reference.execute('19');

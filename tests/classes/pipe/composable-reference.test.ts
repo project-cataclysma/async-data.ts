@@ -9,7 +9,7 @@ describe('piped composable', () => {
     }
 
     const pipeline = usePipe(asyncMethod)
-        .composable<[a: number, b: number, c: string], [], []>(exec => exec)
+        .composable<[a: number, b: number, c: string], [], []>(exec => exec, exec => exec)
         .reference();
 
     it('allows reference wrapping', async () => {
@@ -25,7 +25,7 @@ describe('piped composable', () => {
 
     it('allows parameter injection', async () => {
         const composable = pipeline.then(
-            (r) => statusReferenceTransformer<[], string, ExecutionReference<[], string>, string>(r, {getResult: (output) => output.toUpperCase()}),
+            (r) => statusReferenceTransformer<[], string, object, ExecutionReference<[], string, object>, string>(r, { getResult: (output) => output.toUpperCase() }),
         ).build();
         const reference = composable(5, 2, 'apple');
         expect(reference.executed.value).toBeFalsy();
