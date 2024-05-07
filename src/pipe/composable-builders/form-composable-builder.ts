@@ -1,8 +1,8 @@
 import { Ref, toValue } from "vue";
-import { ExecutionReference } from "../types";
+import { ExecutionReference } from "../../types";
 import { ComposableReferenceBuilder } from "./composable-reference-builder";
-import { ExecutionBuilder } from "./execution-builders/execution-builder";
-import { FormReference } from "../types/references/form-reference";
+import { ExecutionBuilder } from "../execution-builders/execution-builder";
+import { FormReference } from "../../types/references/form-reference";
 
 export class FormComposableBuilder<
     TF,
@@ -21,7 +21,7 @@ export class FormComposableBuilder<
             form: tf,
         }));
     }
-    
+
     build(tf: Ref<TF>) {
         return (new ComposableReferenceBuilder(this.execution.with(exec => (...args: [...tc: TC, ...te: TE]) => exec(toValue(tf), ...args)), r => ({ ...r, form: tf }))).build();
     }
